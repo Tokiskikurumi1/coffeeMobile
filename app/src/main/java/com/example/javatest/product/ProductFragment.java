@@ -8,18 +8,42 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
+import com.example.javatest.adapter.ProductListAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductFragment extends Fragment {
 
+    RecyclerView rcvProduct;
+
     @Nullable
     @Override
-    public View onCreateView(
-            @NonNull LayoutInflater inflater,
-            @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_product, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_product, container, false);
+
+        rcvProduct = view.findViewById(R.id.rcvProduct);
+
+        // set layout dọc
+        rcvProduct.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // fake data test
+        List<String> list = new ArrayList<>();
+        list.add("Cà phê đen");
+        list.add("Cà phê sữa đá");
+        list.add("Trà sữa");
+        list.add("Sinh tố dâu");
+
+        ProductListAdapter adapter = new ProductListAdapter(list);
+        rcvProduct.setAdapter(adapter);
+
+        return view;
     }
 }
