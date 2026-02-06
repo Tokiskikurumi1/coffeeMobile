@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.javatest.account.AccountFragment;
 import com.example.javatest.cart.CartFragment;
 import com.example.javatest.home.HomeFragment;
 import com.example.javatest.product.ProductFragment;
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new ProductFragment();
             } else if (item.getItemId() == R.id.nav_cart) {
                 fragment = new CartFragment();
+            }
+            else if (item.getItemId() == R.id.nav_account){
+                fragment = new AccountFragment();
             }
 
             return loadFragment(fragment);

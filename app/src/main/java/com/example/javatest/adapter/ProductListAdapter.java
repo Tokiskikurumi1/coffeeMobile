@@ -13,24 +13,27 @@ import com.example.javatest.R;
 
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductViewHolder> {
 
     private List<String> list;
 
-    public ProductAdapter(List<String> list) {
+    public ProductListAdapter(List<String> list) {
         this.list = list;
     }
 
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_item_home, parent, false);
+                .inflate(R.layout.layout_item_product_list, parent, false);
+
         return new ProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+
         holder.txtName.setText(list.get(position));
     }
 
@@ -40,11 +43,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
+
         ImageView imgProduct;
         TextView txtName;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
+
             imgProduct = itemView.findViewById(R.id.imgProduct);
             txtName = itemView.findViewById(R.id.txtName);
         }
