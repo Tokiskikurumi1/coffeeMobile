@@ -40,6 +40,10 @@ public class ProductFragment extends Fragment {
         list.add("Cà phê sữa đá");
         list.add("Trà sữa");
         list.add("Sinh tố dâu");
+        list.add("Cà phê đen");
+        list.add("Cà phê sữa đá");
+        list.add("Trà sữa");
+        list.add("Sinh tố dâu");
 
         ProductListAdapter adapter = new ProductListAdapter(list);
         rcvProduct.setAdapter(adapter);
