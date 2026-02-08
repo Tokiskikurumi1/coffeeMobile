@@ -65,30 +65,6 @@
             android:layout_height="1dp"
             android:background="#DDDDDD"/>
 
-        <LinearLayout
-            android:id="@+id/btnChangePass"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/ic_lock_lock"
-                android:tint="#E53935"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đổi Mật Khẩu"
-                android:textSize="16sp"
-                android:layout_marginStart="16dp"/>
-        </LinearLayout>
-
-        <View android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#DDDDDD"/>
 
         <LinearLayout
             android:id="@+id/btnRevenue"
@@ -141,7 +117,7 @@
             android:background="#DDDDDD"/>
 
         <LinearLayout
-            android:id="@+id/btnAddProduct"
+            android:id="@+id/btnManageProduct"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
@@ -156,7 +132,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thêm Sản Phẩm"
+                android:text="Quản lý Sản Phẩm"
                 android:textSize="16sp"
                 android:layout_marginStart="16dp"/>
         </LinearLayout>

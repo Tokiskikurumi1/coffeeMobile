@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.javatest.R;
+import com.example.javatest.account.RevenueFragment;
+import com.example.javatest.account.ManageProductFragment;
 
 public class AccountFragment extends Fragment {
 
@@ -28,6 +30,27 @@ public class AccountFragment extends Fragment {
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragment_container, new ProfileFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        LinearLayout btnThongKe = view.findViewById(R.id.btnRevenue);
+
+        btnThongKe.setOnClickListener(v -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new RevenueFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+
+        LinearLayout btnSanPham = view.findViewById(R.id.btnManageProduct);
+
+        btnSanPham.setOnClickListener(v -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new ManageProductFragment())
                     .addToBackStack(null)
                     .commit();
         });
