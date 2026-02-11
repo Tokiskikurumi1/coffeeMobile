@@ -16,6 +16,7 @@ import com.example.javatest.model.Product;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import android.content.Intent;
 
 public class ManageProductFragment extends Fragment {
 
@@ -42,13 +43,18 @@ public class ManageProductFragment extends Fragment {
         list.add(new Product("Cà phê sữa đá", 45000, 0, "Cà phê"));
         list.add(new Product("Trà sữa", 45000, 0, "Trà"));
         list.add(new Product("Sinh tố dâu", 45000, 0, "Sinh tố"));
-
+        list.add(new Product("Cà phê đen", 45000, 0, "Cà phê"));
+        list.add(new Product("Cà phê sữa đá", 45000, 0, "Cà phê"));
+        list.add(new Product("Trà sữa", 45000, 0, "Trà"));
+        list.add(new Product("Sinh tố dâu", 45000, 0, "Sinh tố"));
         adapter = new ManageProductAdapter(getContext(), list);
         recyclerView.setAdapter(adapter);
 
-        fabAdd.setOnClickListener(v ->
-                Toast.makeText(getContext(), "Thêm sản phẩm", Toast.LENGTH_SHORT).show()
-        );
+        fabAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), AddProduct.class);
+            startActivity(intent);
+        });
+
 
         return view;
     }

@@ -20,6 +20,7 @@ import com.example.javatest.MainActivity;
 import com.example.javatest.R;
 import com.example.javatest.account.RevenueFragment;
 import com.example.javatest.account.ManageProductFragment;
+import com.example.javatest.account.ManageStaff;
 
 public class AccountFragment extends Fragment {
 
@@ -71,7 +72,7 @@ public class AccountFragment extends Fragment {
         btnNhanVien.setOnClickListener(v -> {
             getParentFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new ManageProductFragment())
+                    .replace(R.id.fragment_container, new ManageStaff())
                     .addToBackStack(null)
                     .commit();
         });
