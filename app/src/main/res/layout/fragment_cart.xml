@@ -51,14 +51,6 @@
         android:layout_marginBottom="25dp"
         android:background="#FFFFFF">
 
-        <EditText
-            android:id="@+id/edtCustomer"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:hint="Tên khách hàng"
-            android:background="@drawable/bg_input"
-            android:padding="10dp"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
