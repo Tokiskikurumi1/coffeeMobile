@@ -20,8 +20,10 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
-        // Fragment mặc định
-        loadFragment(new HomeFragment());
+        // CHỈ load mặc định khi app mở lần đầu
+        if (savedInstanceState == null) {
+            loadFragment(new HomeFragment());
+        }
 
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
@@ -32,14 +34,14 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new ProductFragment();
             } else if (item.getItemId() == R.id.nav_cart) {
                 fragment = new CartFragment();
-            }
-            else if (item.getItemId() == R.id.nav_account){
+            } else if (item.getItemId() == R.id.nav_account){
                 fragment = new AccountFragment();
             }
 
             return loadFragment(fragment);
         });
     }
+
 
     private boolean loadFragment(Fragment fragment) {
         if (fragment == null) return false;

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
 import com.example.javatest.adapter.SectionAdapter;
-import com.example.javatest.model.SectionModel;
+import com.example.javatest.model.Product;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,29 +33,30 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         rvSection = view.findViewById(R.id.rvSection);
-
         rvSection.setLayoutManager(
-                new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false)
+                new LinearLayoutManager(getContext())
         );
 
-        // DATA GIẢ (test)
-        List<SectionModel> sections = new ArrayList<>();
+        List<Product> products = new ArrayList<>();
 
-        sections.add(new SectionModel(
-                "Sản phẩm bán chạy",
-                Arrays.asList("Cà phê đen", "Trà sữa", "Latte") ));
-        sections.add(new SectionModel(
+        products.add(new Product(1,"Cà phê đen",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
+        products.add(new Product(2,"Bạc xỉu",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
+        products.add(new Product(3,"Espresso",45000,R.mipmap.ic_launcher,"Cà phê máy"));
+        products.add(new Product(4,"Cappuccino",45000,R.mipmap.ic_launcher,"Cà phê máy"));
+        products.add(new Product(5,"Trà sữa trân châu",45000,R.mipmap.ic_launcher,"Trà sữa"));
+        products.add(new Product(6,"Sinh tố xoài",45000,R.mipmap.ic_launcher,"Sinh tố"));
+        products.add(new Product(7,"Cà phê đen",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
+        products.add(new Product(8,"Bạc xỉu",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
+        List<String> categories = Arrays.asList(
                 "Cà phê truyền thống",
-                Arrays.asList("Cà phê sữa đá", "Bạc xỉu", "Cà phê đen đá") ));
-        sections.add(new SectionModel(
                 "Cà phê máy",
-                Arrays.asList("Espresso", "Cappuccino", "Americano") ));
-        sections.add(new SectionModel( "Trà sữa",
-                Arrays.asList("Trà sữa trân châu", "Trà sữa matcha", "Trà sữa dừa nướng") ));
-        sections.add(new SectionModel( "Sinh tố",
-                Arrays.asList("Sinh tố dưa hấu", "Sinh tố bơ", "Sinh tố xoài") ));
+                "Trà sữa",
+                "Sinh tố"
+        );
 
-        SectionAdapter adapter = new SectionAdapter(getContext(), sections);
+        SectionAdapter adapter =
+                new SectionAdapter(getContext(), categories, products);
+
         rvSection.setAdapter(adapter);
 
         return view;

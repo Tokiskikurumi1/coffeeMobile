@@ -45,9 +45,21 @@ public class ProductFragment extends Fragment {
         list.add("Trà sữa");
         list.add("Sinh tố dâu");
 
-        ProductListAdapter adapter = new ProductListAdapter(list);
-        rcvProduct.setAdapter(adapter);
+        ProductListAdapter adapter = new ProductListAdapter(list, productName -> {
 
+            Bundle bundle = new Bundle();
+            bundle.putString("name", productName);
+
+            ProductDetailFragment fragment = new ProductDetailFragment();
+            fragment.setArguments(bundle);
+
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+        rcvProduct.setAdapter(adapter);
         return view;
     }
 }

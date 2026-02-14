@@ -16,9 +16,17 @@ import java.util.List;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductViewHolder> {
 
     private List<String> list;
+    private OnItemClickListener listener;
 
-    public ProductListAdapter(List<String> list) {
+    // Interface click
+    public interface OnItemClickListener {
+        void onItemClick(String productName);
+    }
+
+    // Constructor mới
+    public ProductListAdapter(List<String> list, OnItemClickListener listener) {
         this.list = list;
+        this.listener = listener;
     }
 
     @NonNull
@@ -34,7 +42,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
 
-        holder.txtName.setText(list.get(position));
+        String productName = list.get(position);
+        holder.txtName.setText(productName);
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(productName);
+            }
+        });
     }
 
     @Override

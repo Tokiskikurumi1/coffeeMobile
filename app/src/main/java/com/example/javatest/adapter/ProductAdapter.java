@@ -1,5 +1,6 @@
 package com.example.javatest.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,28 +11,50 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
+import com.example.javatest.model.Product;
 
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
-    private List<String> list;
+    private Context context;
+    private List<Product> list;
+    private OnProductClickListener listener;
 
-    public ProductAdapter(List<String> list) {
+    // Interface callback
+    public interface OnProductClickListener {
+        void onProductClick(Product product);
+    }
+
+    // Constructor mới
+    public ProductAdapter(Context context, List<Product> list, OnProductClickListener listener) {
+        this.context = context;
         this.list = list;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(context)
                 .inflate(R.layout.layout_item_home, parent, false);
         return new ProductViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        holder.txtName.setText(list.get(position));
+
+        Product product = list.get(position);
+
+        holder.txtName.setText(product.getName());
+        holder.imgProduct.setImageResource(product.getImageResId());
+
+        // Click chỉ gọi callback
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onProductClick(product);
+            }
+        });
     }
 
     @Override
@@ -40,6 +63,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
+
         ImageView imgProduct;
         TextView txtName;
 

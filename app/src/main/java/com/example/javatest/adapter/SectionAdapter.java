@@ -4,25 +4,33 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
-import com.example.javatest.model.SectionModel;
+import com.example.javatest.model.Product;
+import com.example.javatest.product.ProductDetailFragment;
 
+import android.widget.TextView;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionViewHolder> {
 
     private Context context;
-    private List<SectionModel> sections;
+    private List<String> categories;
+    private List<Product> allProducts;
 
-    public SectionAdapter(Context context, List<SectionModel> sections) {
+    public SectionAdapter(Context context, List<String> categories, List<Product> allProducts) {
         this.context = context;
-        this.sections = sections;
+        this.categories = categories;
+        this.allProducts = allProducts;
     }
 
     @NonNull
@@ -35,22 +43,46 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionV
 
     @Override
     public void onBindViewHolder(@NonNull SectionViewHolder holder, int position) {
-        SectionModel section = sections.get(position);
 
-        holder.txtTitle.setText(section.getTitle());
+        String category = categories.get(position);
+        holder.txtTitle.setText(category);
 
-        ProductAdapter productAdapter =
-                new ProductAdapter(section.getProducts());
+        List<Product> filtered = new ArrayList<>();
+
+        for (Product p : allProducts) {
+            if (p.getCategory().equals(category)) {
+                filtered.add(p);
+            }
+        }
+
+        ProductAdapter adapter = new ProductAdapter(context, filtered, product -> {
+
+            Bundle bundle = new Bundle();
+            bundle.putString("name", product.getName());
+            bundle.putInt("price", product.getPrice());
+            bundle.putInt("image", product.getImageResId());
+
+            ProductDetailFragment fragment = new ProductDetailFragment();
+            fragment.setArguments(bundle);
+
+            FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
+
+            fm.beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         holder.rvHorizontal.setLayoutManager(
                 new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         );
-        holder.rvHorizontal.setAdapter(productAdapter);
+
+        holder.rvHorizontal.setAdapter(adapter);
     }
 
     @Override
     public int getItemCount() {
-        return sections.size();
+        return categories.size();
     }
 
     static class SectionViewHolder extends RecyclerView.ViewHolder {
