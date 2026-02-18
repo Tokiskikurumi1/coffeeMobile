@@ -15,14 +15,12 @@ import com.example.javatest.adapter.CartAdapter;
 import com.example.javatest.model.CartItem;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartFragment extends Fragment implements CartAdapter.OnCartChangeListener {
 
     RecyclerView rvCart;
-    TextView txtTotal;
-    TextView tvEmpty;
+    TextView txtTotal, tvEmpty;
 
     CartAdapter adapter;
     List<CartItem> cartList;
@@ -35,18 +33,10 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartChangeLi
 
         rvCart = view.findViewById(R.id.rvCart);
         txtTotal = view.findViewById(R.id.txtTotal);
+        tvEmpty = view.findViewById(R.id.tvEmpty);
 
-        // thêm cái TextView này vào fragment_cart nếu chưa có
-        tvEmpty = new TextView(getContext());
-        tvEmpty.setText("Giỏ hàng trống");
-        tvEmpty.setTextSize(18);
-        tvEmpty.setVisibility(View.GONE);
-
-        cartList = new ArrayList<>();
-
-        // 🔥 THÊM SẢN PHẨM DEMO
-        cartList.add(new CartItem("Trà sữa", 45000, 1, R.drawable.ic_launcher_background));
-        cartList.add(new CartItem("Cà phê sữa", 50000, 2, R.drawable.ic_launcher_background));
+        // 🔥 LẤY DATA TỪ CartManager
+        cartList = CartManager.getCartList();
 
         adapter = new CartAdapter(cartList, this);
 
@@ -71,9 +61,10 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartChangeLi
         }
     }
 
-
     private void calculateTotal() {
+
         int total = 0;
+
         for (CartItem item : cartList) {
             total += item.getPrice() * item.getQuantity();
         }
