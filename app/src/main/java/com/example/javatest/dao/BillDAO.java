@@ -2,41 +2,49 @@ package com.example.javatest.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.javatest.database.DatabaseHelper;
-import com.example.javatest.model.CartItem;
 
 public class BillDAO {
 
     DatabaseHelper helper;
+    SQLiteDatabase db;
 
     public BillDAO(Context context){
         helper = new DatabaseHelper(context);
+        db = helper.getWritableDatabase();
     }
 
-    public long createBill(double total){
-
-        SQLiteDatabase db = helper.getWritableDatabase();
+    public long createBill(){
 
         ContentValues v = new ContentValues();
-        v.put("date", System.currentTimeMillis());
-        v.put("totalPrice", total);
+        v.put("date",System.currentTimeMillis());
+        v.put("totalPrice",0);
 
-        return db.insert("bill", null, v);
+        return db.insert("bill",null,v);
     }
 
-    public void insertBillDetail(long idBill, CartItem item){
-
-        SQLiteDatabase db = helper.getWritableDatabase();
+    public void payBill(int idBill,double total){
 
         ContentValues v = new ContentValues();
-        v.put("idBill", idBill);
-        v.put("idFood", item.getIdFood());
-        v.put("amount", item.getQuantity());
-        v.put("price", item.getPrice());
-        v.put("totalPrice", item.getPrice()*item.getQuantity());
+        v.put("totalPrice",total);
 
-        db.insert("billDetail", null, v);
+        db.update("bill",v,"idBill=?",new String[]{String.valueOf(idBill)});
     }
+    public void debugBills(){
+
+        Cursor c = db.rawQuery("SELECT * FROM bill",null);
+
+        while(c.moveToNext()){
+            Log.d("BILL",
+                    "id="+c.getInt(0)+
+                            " total="+c.getDouble(2));
+        }
+
+        c.close();
+    }
+
 }
