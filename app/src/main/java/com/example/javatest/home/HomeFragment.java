@@ -8,18 +8,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
 import com.example.javatest.adapter.SectionAdapter;
 import com.example.javatest.dao.ProductDAO;
-import com.example.javatest.model.Product;
-import com.example.javatest.product.ProductDetailFragment;
+import com.example.javatest.model.SectionModel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -36,35 +32,17 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         rvSection = view.findViewById(R.id.rvSection);
+
+        // Layout dọc cho danh mục
         rvSection.setLayoutManager(
                 new LinearLayoutManager(getContext())
         );
 
+        // Load dữ liệu theo section
         ProductDAO dao = new ProductDAO(getContext());
-        List<Product> products = dao.getAll();
+        List<SectionModel> sections = dao.getHomeSections();
 
-        rvSection.setLayoutManager(
-                new GridLayoutManager(getContext(), 2)
-        );
-
-        HomeAdapter adapter =
-                new HomeAdapter(getContext(), products, product -> {
-
-                    Bundle b = new Bundle();
-                    b.putInt("id", product.getIdFood());
-                    b.putString("name", product.getNameFood());
-                    b.putDouble("price", product.getPrice());
-                    b.putString("image", product.getImage());
-
-                    ProductDetailFragment f = new ProductDetailFragment();
-                    f.setArguments(b);
-
-                    getParentFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, f)
-                            .addToBackStack(null)
-                            .commit();
-                });
+        SectionAdapter adapter = new SectionAdapter(getContext(), sections);
 
         rvSection.setAdapter(adapter);
 

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.javatest.database.DatabaseHelper;
 import com.example.javatest.model.Product;
+import com.example.javatest.model.SectionModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,5 +131,26 @@ public class ProductDAO {
         p.setImage(c.getString(c.getColumnIndexOrThrow("image")));
 
         return p;
+    }
+
+    public List<SectionModel> getHomeSections(){
+
+        List<SectionModel> list = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM category", null);
+
+        while(c.moveToNext()){
+
+            int id = c.getInt(0);
+            String name = c.getString(1);
+
+            List<Product> products = getByCategory(id);
+
+            list.add(new SectionModel(name, products));
+        }
+
+        c.close();
+        return list;
     }
 }
