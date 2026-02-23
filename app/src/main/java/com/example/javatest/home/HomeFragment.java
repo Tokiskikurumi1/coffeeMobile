@@ -8,12 +8,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
 import com.example.javatest.adapter.SectionAdapter;
+import com.example.javatest.dao.ProductDAO;
 import com.example.javatest.model.Product;
+import com.example.javatest.product.ProductDetailFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,25 +40,31 @@ public class HomeFragment extends Fragment {
                 new LinearLayoutManager(getContext())
         );
 
-        List<Product> products = new ArrayList<>();
+        ProductDAO dao = new ProductDAO(getContext());
+        List<Product> products = dao.getAll();
 
-        products.add(new Product(1,"Cà phê đen",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
-        products.add(new Product(2,"Bạc xỉu",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
-        products.add(new Product(3,"Espresso",45000,R.mipmap.ic_launcher,"Cà phê máy"));
-        products.add(new Product(4,"Cappuccino",45000,R.mipmap.ic_launcher,"Cà phê máy"));
-        products.add(new Product(5,"Trà sữa trân châu",45000,R.mipmap.ic_launcher,"Trà sữa"));
-        products.add(new Product(6,"Sinh tố xoài",45000,R.mipmap.ic_launcher,"Sinh tố"));
-        products.add(new Product(7,"Cà phê đen",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
-        products.add(new Product(8,"Bạc xỉu",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
-        List<String> categories = Arrays.asList(
-                "Cà phê truyền thống",
-                "Cà phê máy",
-                "Trà sữa",
-                "Sinh tố"
+        rvSection.setLayoutManager(
+                new GridLayoutManager(getContext(), 2)
         );
 
-        SectionAdapter adapter =
-                new SectionAdapter(getContext(), categories, products);
+        HomeAdapter adapter =
+                new HomeAdapter(getContext(), products, product -> {
+
+                    Bundle b = new Bundle();
+                    b.putInt("id", product.getIdFood());
+                    b.putString("name", product.getNameFood());
+                    b.putDouble("price", product.getPrice());
+                    b.putString("image", product.getImage());
+
+                    ProductDetailFragment f = new ProductDetailFragment();
+                    f.setArguments(b);
+
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, f)
+                            .addToBackStack(null)
+                            .commit();
+                });
 
         rvSection.setAdapter(adapter);
 

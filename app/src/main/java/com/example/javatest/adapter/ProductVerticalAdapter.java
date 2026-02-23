@@ -44,9 +44,15 @@ public class ProductVerticalAdapter extends RecyclerView.Adapter<ProductVertical
 
         Product product = list.get(position);
 
-        holder.txtName.setText(product.getName());
+        holder.txtName.setText(product.getNameFood());
         holder.txtPrice.setText(product.getPrice() + " VNĐ");
-        holder.imgProduct.setImageResource(product.getImageResId());
+
+// convert image string -> drawable
+        int resId = holder.itemView.getContext().getResources()
+                .getIdentifier(product.getImage(), "drawable",
+                        holder.itemView.getContext().getPackageName());
+
+        holder.imgProduct.setImageResource(resId);
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {

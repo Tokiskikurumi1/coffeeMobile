@@ -42,18 +42,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductViewHolder holder,int position){
 
-        Product product = list.get(position);
+        Product p=list.get(position);
 
-        holder.txtName.setText(product.getName());
-        holder.imgProduct.setImageResource(product.getImageResId());
+        holder.txtName.setText(p.getNameFood());
 
-        // Click chỉ gọi callback
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onProductClick(product);
-            }
+        int imageId=context.getResources()
+                .getIdentifier(p.getImage(),"drawable",context.getPackageName());
+
+        holder.imgProduct.setImageResource(imageId);
+
+        holder.itemView.setOnClickListener(v->{
+            if(listener!=null) listener.onProductClick(p);
         });
     }
 

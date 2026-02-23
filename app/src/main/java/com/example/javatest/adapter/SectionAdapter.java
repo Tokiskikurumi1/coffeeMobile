@@ -50,7 +50,7 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionV
         List<Product> filtered = new ArrayList<>();
 
         for (Product p : allProducts) {
-            if (p.getCategory().equals(category)) {
+            if (String.valueOf(p.getIdCate()).equals(category)) {
                 filtered.add(p);
             }
         }
@@ -58,9 +58,11 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionV
         ProductAdapter adapter = new ProductAdapter(context, filtered, product -> {
 
             Bundle bundle = new Bundle();
-            bundle.putString("name", product.getName());
-            bundle.putInt("price", product.getPrice());
-            bundle.putInt("image", product.getImageResId());
+            bundle.putInt("id", product.getIdFood());
+            bundle.putString("name", product.getNameFood());
+            bundle.putInt("price", (int) product.getPrice());
+            bundle.putString("image", product.getImage());
+            bundle.putInt("cate", product.getIdCate());
 
             ProductDetailFragment fragment = new ProductDetailFragment();
             fragment.setArguments(bundle);

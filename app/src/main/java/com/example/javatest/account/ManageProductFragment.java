@@ -39,10 +39,10 @@ public class ManageProductFragment extends Fragment {
         list = new ArrayList<>();
 
         // Ảnh để 0 tạm thời
-        list.add(new Product(1,"Cà phê đen",45000,R.mipmap.ic_launcher,"Cà phê"));
-        list.add(new Product(2,"Cà phê sữa đá",45000,R.mipmap.ic_launcher,"Cà phê"));
-        list.add(new Product(3,"Trà sữa",45000,R.mipmap.ic_launcher,"Trà sữa"));
-        list.add(new Product(4,"Sinh tố dâu",45000,R.mipmap.ic_launcher,"Sinh tố"));
+        list.add(new Product(1,1,"Cà phê đen",45000,"ic_launcher"));
+        list.add(new Product(2,1,"Cà phê sữa đá",45000,"ic_launcher"));
+        list.add(new Product(3,2,"Trà sữa",45000,"ic_launcher"));
+        list.add(new Product(4,3,"Sinh tố dâu",45000,"ic_launcher"));
 
         adapter = new ManageProductAdapter(getContext(), list);
         recyclerView.setAdapter(adapter);

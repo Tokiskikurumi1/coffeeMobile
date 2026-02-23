@@ -1,5 +1,6 @@
 package com.example.javatest;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,16 +8,36 @@ import androidx.fragment.app.Fragment;
 
 import com.example.javatest.account.AccountFragment;
 import com.example.javatest.cart.CartFragment;
+import com.example.javatest.dao.ProductDAO;
+import com.example.javatest.database.DatabaseHelper;
 import com.example.javatest.home.HomeFragment;
+import com.example.javatest.model.Product;
 import com.example.javatest.product.ProductFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    DatabaseHelper dbHelper;
+    SQLiteDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        dbHelper = new DatabaseHelper(this);
+        db = dbHelper.getWritableDatabase();
+        db.execSQL("PRAGMA foreign_keys=ON;");
+
+        ProductDAO dao = new ProductDAO(this);
+
+        Product p = new Product();
+        p.setIdCate(1);
+        p.setNameFood("Latte");
+        p.setPrice(45000);
+        p.setImage("latte.png");
+
+        dao.insert(p);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
@@ -53,4 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
+
 }

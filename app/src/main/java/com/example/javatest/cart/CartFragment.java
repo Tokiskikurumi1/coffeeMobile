@@ -63,7 +63,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartChangeLi
 
     private void calculateTotal() {
 
-        int total = 0;
+        double total = 0;
 
         for (CartItem item : cartList) {
             total += item.getPrice() * item.getQuantity();
@@ -75,6 +75,9 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartChangeLi
 
     @Override
     public void onCartChanged() {
+        adapter.notifyDataSetChanged();
         updateUI();
     }
+
+
 }

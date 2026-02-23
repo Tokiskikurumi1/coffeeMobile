@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
+import com.example.javatest.cart.CartManager;
 import com.example.javatest.model.CartItem;
 
 import java.text.DecimalFormat;
@@ -49,27 +50,23 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.txtPrice.setText(format.format(item.getPrice()));
 
         holder.txtQuantity.setText(String.valueOf(item.getQuantity()));
-        holder.img.setImageResource(item.getImage());
+        int imageId=holder.itemView.getContext()
+                .getResources()
+                .getIdentifier(item.getImage(),"drawable",
+                        holder.itemView.getContext().getPackageName());
+
+        holder.img.setImageResource(imageId);
 
         holder.btnPlus.setOnClickListener(v -> {
-            item.setQuantity(item.getQuantity() + 1);
-            notifyItemChanged(position);
-            listener.onCartChanged();
+            CartManager.increase(position);
+            notifyDataSetChanged();
+            if(listener!=null) listener.onCartChanged();
         });
 
         holder.btnMinus.setOnClickListener(v -> {
-
-            int newQuantity = item.getQuantity() - 1;
-
-            if (newQuantity > 0) {
-                item.setQuantity(newQuantity);
-                notifyItemChanged(position);
-            } else {
-                list.remove(position);
-                notifyItemRemoved(position);
-            }
-
-            listener.onCartChanged();
+            CartManager.decrease(position);
+            notifyDataSetChanged();
+            if(listener!=null) listener.onCartChanged();
         });
     }
 

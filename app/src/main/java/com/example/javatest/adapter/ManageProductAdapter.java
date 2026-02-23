@@ -38,11 +38,11 @@ public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = list.get(position);
 
-        holder.txtName.setText(product.getName());
+        holder.txtName.setText(product.getNameFood());
         holder.txtPrice.setText(product.getPrice() + " VNĐ");
 
         holder.btnEdit.setOnClickListener(v ->
-                Toast.makeText(context, "Sửa: " + product.getName(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Sửa: " + product.getNameFood(), Toast.LENGTH_SHORT).show()
         );
     }
 

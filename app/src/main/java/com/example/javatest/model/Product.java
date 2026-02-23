@@ -2,23 +2,31 @@ package com.example.javatest.model;
 
 public class Product {
 
-    private int id;
-    private String name;
-    private int price;
-    private int imageResId;
-    private String category;
+    private int idFood;
+    private int idCate;
+    private String nameFood;
+    private double price;
+    private String image; // drawable name
 
-    public Product(int id, String name, int price, int imageResId, String category) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.imageResId = imageResId;
-        this.category = category;
+    public Product(){}
+
+    public Product(int idFood, int idCate, String nameFood, double price, String image){
+        this.idFood=idFood;
+        this.idCate=idCate;
+        this.nameFood=nameFood;
+        this.price=price;
+        this.image=image;
     }
 
-    public int getId() { return id; }
-    public String getName() { return name; }
-    public int getPrice() { return price; }
-    public int getImageResId() { return imageResId; }
-    public String getCategory() { return category; }
+    public int getIdFood(){return idFood;}
+    public int getIdCate(){return idCate;}
+    public String getNameFood(){return nameFood;}
+    public double getPrice(){return price;}
+    public String getImage(){return image;}
+
+    public void setIdFood(int idFood){this.idFood=idFood;}
+    public void setIdCate(int idCate){this.idCate=idCate;}
+    public void setNameFood(String nameFood){this.nameFood=nameFood;}
+    public void setPrice(double price){this.price=price;}
+    public void setImage(String image){this.image=image;}
 }
