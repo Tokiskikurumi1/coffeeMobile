@@ -10,52 +10,71 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:padding="12dp">
 
         <!-- ẢNH -->
         <ImageView
             android:id="@+id/imgProduct"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:scaleType="centerCrop"
-            android:layout_marginEnd="12dp"/>
+            android:layout_marginEnd="12dp"
+            android:scaleType="centerCrop" />
 
         <!-- TÊN + GIÁ -->
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Cà phê sữa đá"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtPrice"
-                android:text="45.000 VNĐ"
-                android:textSize="14sp"
-                android:textColor="#666"
-                android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="45.000 VNĐ"
+                android:textColor="#666"
+                android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- NÚT + -->
-        <Button
-            android:id="@+id/btnEdit"
-            android:layout_width="80dp"
-            android:layout_height="36dp"
-            android:backgroundTint="#FF9800"
-            android:text="Sửa"
-            android:textColor="@android:color/white"/>
+        <!-- ACTION BUTTONS -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/btnEdit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_edit"
+                android:tint="#FF9800"
+                android:padding="8dp"/>
+
+            <ImageButton
+                android:id="@+id/btnDelete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="6dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_delete"
+                android:tint="#F44336"
+                android:padding="8dp"/>
+
+        </LinearLayout>
 
 
     </LinearLayout>

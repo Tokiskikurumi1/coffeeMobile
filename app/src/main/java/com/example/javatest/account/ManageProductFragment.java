@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
 import com.example.javatest.adapter.ManageProductAdapter;
+import com.example.javatest.dao.ProductDAO;
 import com.example.javatest.model.Product;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -36,13 +37,11 @@ public class ManageProductFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        list = new ArrayList<>();
+        ProductDAO dao = new ProductDAO(getContext());
+        list = new ArrayList<>(dao.getAll());
 
-        // Ảnh để 0 tạm thời
-        list.add(new Product(1,1,"Cà phê đen",45000,"ic_launcher"));
-        list.add(new Product(2,1,"Cà phê sữa đá",45000,"ic_launcher"));
-        list.add(new Product(3,2,"Trà sữa",45000,"ic_launcher"));
-        list.add(new Product(4,3,"Sinh tố dâu",45000,"ic_launcher"));
+        adapter = new ManageProductAdapter(getContext(), list);
+        recyclerView.setAdapter(adapter);
 
         adapter = new ManageProductAdapter(getContext(), list);
         recyclerView.setAdapter(adapter);
@@ -54,5 +53,14 @@ public class ManageProductFragment extends Fragment {
 
 
         return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ProductDAO dao = new ProductDAO(getContext());
+        list.clear();
+        list.addAll(dao.getAll());
+        adapter.notifyDataSetChanged();
     }
 }

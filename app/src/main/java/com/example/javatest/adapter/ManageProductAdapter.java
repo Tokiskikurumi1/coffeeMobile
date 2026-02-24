@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +55,7 @@ public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdap
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtName, txtPrice;
-        Button btnEdit;
+        ImageButton btnEdit, btnDelete;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +63,14 @@ public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdap
             txtName = itemView.findViewById(R.id.txtName);
             txtPrice = itemView.findViewById(R.id.txtPrice);
             btnEdit = itemView.findViewById(R.id.btnEdit);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
+
+        public interface OnAction{
+            void onEdit(Product p);
+            void onDelete(Product p);
+        }
+
+
     }
 }

@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.javatest.R;
 import com.example.javatest.model.Revenue;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class RevenueAdapter extends RecyclerView.Adapter<RevenueAdapter.ViewHolder> {
 
@@ -19,7 +22,7 @@ public class RevenueAdapter extends RecyclerView.Adapter<RevenueAdapter.ViewHold
     OnBillClick listener;
 
     public interface OnBillClick{
-        void onClick(int idBill); // 🔥 truyền idBill
+        void onClick(int idBill);
     }
 
     public RevenueAdapter(ArrayList<Revenue> list, OnBillClick l) {
@@ -41,10 +44,23 @@ public class RevenueAdapter extends RecyclerView.Adapter<RevenueAdapter.ViewHold
         Revenue revenue = list.get(position);
 
         holder.txtMaHD.setText("Mã HĐ: " + revenue.getIdBill());
-        holder.txtNgay.setText("Ngày tạo: " + revenue.getDate());
+
+        try {
+            // 🔥 convert chuỗi số -> long
+            long time = Long.parseLong(revenue.getDate());
+
+            Date date = new Date(time);
+
+            SimpleDateFormat showFormat =
+                    new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+
+            holder.txtNgay.setText("Ngày: " + showFormat.format(date));
+
+        } catch (Exception e) {
+            holder.txtNgay.setText(revenue.getDate());
+        }
         holder.txtTien.setText(String.format("%,.0f VND", revenue.getTotal()));
 
-        // 🔥 FIX QUAN TRỌNG
         holder.itemView.setOnClickListener(v-> listener.onClick(revenue.getIdBill()));
     }
 
