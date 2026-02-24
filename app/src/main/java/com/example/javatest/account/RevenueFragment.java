@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
 import com.example.javatest.adapter.RevenueAdapter;
+import com.example.javatest.dao.BillDAO;
 import com.example.javatest.model.Revenue;
 
 import java.util.ArrayList;
@@ -34,25 +33,28 @@ public class RevenueFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_revenue, container, false);
 
-        TextView btnBack = view.findViewById(R.id.btnBack);
-
         recyclerView = view.findViewById(R.id.rvRevenue);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        list = new ArrayList<>();
-        list.add(new Revenue("HD001", "07/02/2026", 362000));
-        list.add(new Revenue("HD002", "07/02/2026", 992000));
-        list.add(new Revenue("HD003", "08/02/2026", 1036000));
-        list.add(new Revenue("HD004", "08/02/2026", 1248000));
+        BillDAO billDAO = new BillDAO(getContext());
+        list = billDAO.getAllRevenue();
 
-        adapter = new RevenueAdapter(list);
-        recyclerView.setAdapter(adapter);
+        adapter = new RevenueAdapter(list, idBill -> {
 
-        btnBack.setOnClickListener(v -> {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .popBackStack();
+            Bundle b = new Bundle();
+            b.putInt("idBill", idBill);
+
+            BillDetailFragment f = new BillDetailFragment();
+            f.setArguments(b);
+
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, f)
+                    .addToBackStack(null)
+                    .commit();
         });
+
+        recyclerView.setAdapter(adapter);
 
         return view;
     }

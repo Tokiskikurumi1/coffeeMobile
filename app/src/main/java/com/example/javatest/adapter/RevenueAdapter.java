@@ -16,9 +16,15 @@ import java.util.ArrayList;
 public class RevenueAdapter extends RecyclerView.Adapter<RevenueAdapter.ViewHolder> {
 
     ArrayList<Revenue> list;
+    OnBillClick listener;
 
-    public RevenueAdapter(ArrayList<Revenue> list) {
+    public interface OnBillClick{
+        void onClick(int idBill); // 🔥 truyền idBill
+    }
+
+    public RevenueAdapter(ArrayList<Revenue> list, OnBillClick l) {
         this.list = list;
+        this.listener = l;
     }
 
     @NonNull
@@ -34,9 +40,12 @@ public class RevenueAdapter extends RecyclerView.Adapter<RevenueAdapter.ViewHold
 
         Revenue revenue = list.get(position);
 
-        holder.txtMaHD.setText("Mã HĐ: " + revenue.getMaHD());
-        holder.txtNgay.setText("Ngày tạo: " + revenue.getNgayTao());
-        holder.txtTien.setText(String.format("%,.0f VND", revenue.getTongTien()));
+        holder.txtMaHD.setText("Mã HĐ: " + revenue.getIdBill());
+        holder.txtNgay.setText("Ngày tạo: " + revenue.getDate());
+        holder.txtTien.setText(String.format("%,.0f VND", revenue.getTotal()));
+
+        // 🔥 FIX QUAN TRỌNG
+        holder.itemView.setOnClickListener(v-> listener.onClick(revenue.getIdBill()));
     }
 
     @Override

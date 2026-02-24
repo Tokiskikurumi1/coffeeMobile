@@ -37,32 +37,17 @@ public class ProductFragment extends Fragment {
         // set layout dọc
         rcvProduct.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // fake data test
         ProductDAO dao = new ProductDAO(getContext());
         List<Product> list = dao.getAll();
-
-
-//        ProductAdapter adapter = new ProductAdapter(getContext(), list, product -> {
-//
-//            Bundle bundle = new Bundle();
-//            bundle.putString("name", product.getName());
-//            bundle.putInt("price", product.getPrice());
-//            bundle.putInt("image", product.getImageResId());
-//
-//            ProductDetailFragment fragment = new ProductDetailFragment();
-//            fragment.setArguments(bundle);
-//
-//            requireActivity().getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.fragment_container, fragment)
-//                    .addToBackStack(null)
-//                    .commit();
-//        });
 
         ProductVerticalAdapter adapter =
                 new ProductVerticalAdapter(list, product -> {
 
                     Bundle bundle = new Bundle();
+
+                    bundle.putInt("id", product.getIdFood());          // ⭐ bắt buộc
+                    bundle.putInt("cate", product.getIdCate());    // ⭐ thêm ở đây
+
                     bundle.putString("name", product.getNameFood());
                     bundle.putDouble("price", product.getPrice());
                     bundle.putString("image", product.getImage());

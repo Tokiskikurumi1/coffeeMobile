@@ -7,6 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.javatest.database.DatabaseHelper;
+import com.example.javatest.model.Revenue;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class BillDAO {
 
@@ -19,21 +24,41 @@ public class BillDAO {
     }
 
     public long createBill(){
-
         ContentValues v = new ContentValues();
         v.put("date",System.currentTimeMillis());
         v.put("totalPrice",0);
-
         return db.insert("bill",null,v);
     }
 
     public void payBill(int idBill,double total){
-
         ContentValues v = new ContentValues();
         v.put("totalPrice",total);
-
         db.update("bill",v,"idBill=?",new String[]{String.valueOf(idBill)});
     }
+
+    // ⭐ LẤY DOANH THU
+    public ArrayList<Revenue> getAllRevenue(){
+
+        ArrayList<Revenue> list = new ArrayList<>();
+
+        Cursor c = db.rawQuery(
+                "SELECT idBill,date,totalPrice FROM bill ORDER BY idBill DESC",
+                null
+        );
+
+        while(c.moveToNext()){
+
+            int id = c.getInt(0);
+            String date = c.getString(1);
+            double total = c.getDouble(2);
+
+            list.add(new Revenue(id,date,total));
+        }
+
+        c.close();
+        return list;
+    }
+
     public void debugBills(){
 
         Cursor c = db.rawQuery("SELECT * FROM bill",null);
@@ -46,5 +71,4 @@ public class BillDAO {
 
         c.close();
     }
-
 }
