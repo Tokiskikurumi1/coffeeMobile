@@ -40,10 +40,26 @@ public class ManageProductFragment extends Fragment {
         ProductDAO dao = new ProductDAO(getContext());
         list = new ArrayList<>(dao.getAll());
 
-        adapter = new ManageProductAdapter(getContext(), list);
-        recyclerView.setAdapter(adapter);
+        adapter = new ManageProductAdapter(getContext(), list, new ManageProductAdapter.OnAction() {
 
-        adapter = new ManageProductAdapter(getContext(), list);
+            @Override
+            public void onEdit(Product p) {
+
+                Intent i = new Intent(getContext(), AddProduct.class);
+                i.putExtra("id",p.getIdFood());
+                startActivity(i);
+            }
+
+            @Override
+            public void onDelete(Product p) {
+
+                dao.delete(p.getIdFood());
+
+                list.remove(p);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         recyclerView.setAdapter(adapter);
 
         fabAdd.setOnClickListener(v -> {
