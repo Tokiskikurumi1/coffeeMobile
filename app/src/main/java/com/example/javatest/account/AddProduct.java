@@ -1,23 +1,73 @@
 package com.example.javatest.account;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
+import android.widget.*;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.javatest.R;
+import com.example.javatest.dao.CategoryDAO;
 import com.example.javatest.dao.ProductDAO;
+import com.example.javatest.model.Category;
 import com.example.javatest.model.Product;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 public class AddProduct extends AppCompatActivity {
 
-    EditText edtName, edtPrice, edtCategory;
+    EditText edtName, edtPrice;
+    Spinner spCategory;
+    ImageView imgProduct;
     Button btnCancel, btnConfirm;
 
     ProductDAO dao;
-    int idEdit = -1; // -1 = add, >0 = edit
+    ArrayList<Category> cateList;
+
+    int idEdit = -1;
+    String imagePath = "";
+
+    // 👉 pick image
+    ActivityResultLauncher<Intent> pickImg =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if(result.getResultCode()==RESULT_OK && result.getData()!=null){
+
+                            Uri uri = result.getData().getData();
+
+                            try{
+                                InputStream is = getContentResolver().openInputStream(uri);
+
+                                String fileName = "img_"+System.currentTimeMillis()+".jpg";
+                                File file = new File(getFilesDir(), fileName);
+
+                                FileOutputStream fos = new FileOutputStream(file);
+
+                                byte[] buf = new byte[1024];
+                                int len;
+                                while((len=is.read(buf))>0){
+                                    fos.write(buf,0,len);
+                                }
+
+                                fos.close();
+                                is.close();
+
+                                imagePath = file.getAbsolutePath();
+                                imgProduct.setImageURI(Uri.fromFile(file));
+
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,64 +76,93 @@ public class AddProduct extends AppCompatActivity {
 
         edtName = findViewById(R.id.edtName);
         edtPrice = findViewById(R.id.edtPrice);
-        edtCategory = findViewById(R.id.edtCategory);
-
+        spCategory = findViewById(R.id.spCategory);
+        imgProduct = findViewById(R.id.imgProduct);
         btnCancel = findViewById(R.id.btnCancel);
         btnConfirm = findViewById(R.id.btnConfirm);
 
         dao = new ProductDAO(this);
 
-        // ✅ nhận id edit
-        idEdit = getIntent().getIntExtra("id", -1);
+        // ===== load category spinner =====
+        CategoryDAO cateDAO = new CategoryDAO(this);
+        cateList = new ArrayList<>(cateDAO.getAll());
 
-        if(idEdit != -1){
-            loadData(idEdit);
-        }
+        ArrayList<String> names = new ArrayList<>();
+        for(Category c:cateList) names.add(c.getName());
 
-        btnCancel.setOnClickListener(v -> finish());
+        spCategory.setAdapter(new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_spinner_dropdown_item,
+                names
+        ));
 
-        btnConfirm.setOnClickListener(v -> save());
+        // ===== nhận id edit =====
+        idEdit = getIntent().getIntExtra("id",-1);
+        if(idEdit!=-1) loadData(idEdit);
+
+        // ===== pick image =====
+        imgProduct.setOnClickListener(v->{
+            Intent i=new Intent(Intent.ACTION_PICK);
+            i.setType("image/*");
+            pickImg.launch(i);
+        });
+
+        btnCancel.setOnClickListener(v->finish());
+        btnConfirm.setOnClickListener(v->save());
     }
 
+    // =============================
     void loadData(int id){
 
-        for(Product p: dao.getAll()){
+        for(Product p:dao.getAll()){
             if(p.getIdFood()==id){
+
                 edtName.setText(p.getNameFood());
                 edtPrice.setText(String.valueOf(p.getPrice()));
-                edtCategory.setText(String.valueOf(p.getIdCate()));
+
+                // set spinner category
+                for(int i=0;i<cateList.size();i++){
+                    if(cateList.get(i).getId()==p.getIdCate()){
+                        spCategory.setSelection(i);
+                        break;
+                    }
+                }
+
+                // load ảnh
+                if(p.getImage()!=null && !p.getImage().isEmpty()){
+                    imagePath=p.getImage();
+                    imgProduct.setImageURI(Uri.fromFile(new File(imagePath)));
+                }
                 break;
             }
         }
     }
 
+    // =============================
     void save(){
 
-        String name = edtName.getText().toString();
-        String priceStr = edtPrice.getText().toString();
-        String cateStr = edtCategory.getText().toString();
+        String name=edtName.getText().toString();
+        String priceStr=edtPrice.getText().toString();
 
-        if(name.isEmpty() || priceStr.isEmpty() || cateStr.isEmpty()){
+        if(name.isEmpty()||priceStr.isEmpty()){
             Toast.makeText(this,"Nhập đủ thông tin",Toast.LENGTH_SHORT).show();
             return;
         }
 
-        double price = Double.parseDouble(priceStr);
-        int cate = Integer.parseInt(cateStr);
+        double price=Double.parseDouble(priceStr);
+        int cateId=cateList.get(spCategory.getSelectedItemPosition()).getId();
 
-        Product p = new Product();
+        Product p=new Product();
         p.setNameFood(name);
         p.setPrice(price);
-        p.setIdCate(cate);
-        p.setImage("coffee"); // tạm
+        p.setIdCate(cateId);
+        p.setImage(imagePath);
 
-        // ✅ EDIT
         if(idEdit!=-1){
             p.setIdFood(idEdit);
             dao.update(p);
             Toast.makeText(this,"Đã cập nhật",Toast.LENGTH_SHORT).show();
-        }
-        else{
+        }else{
             dao.insert(p);
             Toast.makeText(this,"Đã thêm",Toast.LENGTH_SHORT).show();
         }
