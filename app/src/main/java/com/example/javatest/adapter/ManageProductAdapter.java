@@ -3,7 +3,6 @@ package com.example.javatest.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,8 @@ import com.example.javatest.dao.CategoryDAO;
 import com.example.javatest.dao.ProductDAO;
 import com.example.javatest.model.Category;
 import com.example.javatest.model.Product;
+import com.example.javatest.util.ImageLoader;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,25 +63,14 @@ public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdap
         String cateName=cateMap.get(p.getIdCate());
         h.txtCategory.setText(cateName==null?"":cateName);
 
-        // ===== LOAD IMAGE =====
-        if(p.getImage()!=null && !p.getImage().isEmpty()){
-            try{
-                h.imgProduct.setImageURI(Uri.fromFile(new File(p.getImage())));
-            }catch(Exception e){
-                h.imgProduct.setImageResource(R.drawable.ic_launcher_background);
-            }
-        }else{
-            h.imgProduct.setImageResource(R.drawable.ic_launcher_background);
-        }
+        ImageLoader.load(h.imgProduct,p.getImage());
 
-        // ===== EDIT =====
         h.btnEdit.setOnClickListener(v->{
             Intent i=new Intent(context,AddProduct.class);
             i.putExtra("id",p.getIdFood());
             context.startActivity(i);
         });
 
-        // ===== DELETE =====
         h.btnDelete.setOnClickListener(v->{
 
             new AlertDialog.Builder(context)
@@ -123,7 +111,6 @@ public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdap
         }
     }
 
-    // ===== SEARCH =====
     public void filter(String key){
 
         list.clear();

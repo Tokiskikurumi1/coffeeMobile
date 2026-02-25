@@ -1,6 +1,8 @@
 package com.example.javatest.home;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
 import com.example.javatest.model.Product;
+import com.example.javatest.util.ImageLoader;
 
+import java.io.File;
 import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
@@ -48,10 +52,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         h.txtName.setText(p.getNameFood());
 
-        int imgId = context.getResources()
-                .getIdentifier(p.getImage(),"drawable",context.getPackageName());
-
-        h.img.setImageResource(imgId);
+        ImageLoader.load(h.img, p.getImage());
 
         h.itemView.setOnClickListener(v -> listener.onClick(p));
     }

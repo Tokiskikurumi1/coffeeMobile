@@ -153,4 +153,22 @@ public class ProductDAO {
         c.close();
         return list;
     }
+    public Product getById(int id){
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor c = db.rawQuery(
+                "SELECT * FROM menu WHERE idFood=?",
+                new String[]{String.valueOf(id)}
+        );
+
+        if(c.moveToFirst()){
+            Product p = readProduct(c);
+            c.close();
+            return p;
+        }
+
+        c.close();
+        return null;
+    }
 }

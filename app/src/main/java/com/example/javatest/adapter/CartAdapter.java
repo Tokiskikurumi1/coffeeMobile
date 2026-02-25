@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.javatest.R;
 import com.example.javatest.cart.CartManager;
 import com.example.javatest.model.CartItem;
+import com.example.javatest.util.ImageLoader;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -55,7 +56,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 .getIdentifier(item.getImage(),"drawable",
                         holder.itemView.getContext().getPackageName());
 
-        holder.img.setImageResource(imageId);
+        ImageLoader.load(holder.img, item.getImage());
 
         holder.btnPlus.setOnClickListener(v -> {
             CartManager.increase(position);

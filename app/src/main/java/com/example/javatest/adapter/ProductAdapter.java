@@ -48,10 +48,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         holder.txtName.setText(p.getNameFood());
 
-        int imageId=context.getResources()
-                .getIdentifier(p.getImage(),"drawable",context.getPackageName());
-
-        holder.imgProduct.setImageResource(imageId);
+        com.example.javatest.util.ImageLoader
+                .load(holder.imgProduct,p.getImage());
 
         holder.itemView.setOnClickListener(v->{
             if(listener!=null) listener.onProductClick(p);

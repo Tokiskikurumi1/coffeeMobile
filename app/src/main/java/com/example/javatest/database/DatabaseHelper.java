@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "coffee_app.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -65,17 +65,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // ===== INSERT MENU =====
         db.execSQL("INSERT INTO menu VALUES(1,1,'Cà phê đen',30000,'cf_den')");
-        db.execSQL("INSERT INTO menu VALUES(2,1,'Cà phê sữa',35000,'cf_sua')");
-        db.execSQL("INSERT INTO menu VALUES(3,1,'Bạc xỉu',38000,'bac_xiu')");
-        db.execSQL("INSERT INTO menu VALUES(4,1,'Americano',40000,'americano')");
-        db.execSQL("INSERT INTO menu VALUES(5,1,'Latte',42000,'latte')");
+        db.execSQL("INSERT INTO menu VALUES(2,1,'Cà phê sữa',35000,'cf_den')");
+        db.execSQL("INSERT INTO menu VALUES(3,1,'Bạc xỉu',38000,'cf_den')");
+        db.execSQL("INSERT INTO menu VALUES(4,1,'Americano',40000,'cf_den')");
+        db.execSQL("INSERT INTO menu VALUES(5,1,'Latte',42000,'cf_den')");
 
-        db.execSQL("INSERT INTO menu VALUES(6,2,'Trà sữa trân châu',45000,'ts_tc')");
-        db.execSQL("INSERT INTO menu VALUES(7,2,'Trà sữa matcha',48000,'ts_matcha')");
-        db.execSQL("INSERT INTO menu VALUES(8,2,'Trà sữa socola',47000,'ts_socola')");
+        db.execSQL("INSERT INTO menu VALUES(6,2,'Trà sữa trân châu',45000,'cf_den')");
+        db.execSQL("INSERT INTO menu VALUES(7,2,'Trà sữa matcha',48000,'cf_den')");
+        db.execSQL("INSERT INTO menu VALUES(8,2,'Trà sữa socola',47000,'cf_den')");
 
-        db.execSQL("INSERT INTO menu VALUES(9,3,'Socola đá xay',50000,'dx_socola')");
-        db.execSQL("INSERT INTO menu VALUES(10,3,'Matcha đá xay',52000,'dx_matcha')");
+        db.execSQL("INSERT INTO menu VALUES(9,3,'Socola đá xay',50000,'cf_den')");
+        db.execSQL("INSERT INTO menu VALUES(10,3,'Matcha đá xay',52000,'cf_den')");
     }
 
     @Override

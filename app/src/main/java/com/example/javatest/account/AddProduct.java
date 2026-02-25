@@ -120,7 +120,6 @@ public class AddProduct extends AppCompatActivity {
                 edtName.setText(p.getNameFood());
                 edtPrice.setText(String.valueOf(p.getPrice()));
 
-                // set spinner category
                 for(int i=0;i<cateList.size();i++){
                     if(cateList.get(i).getId()==p.getIdCate()){
                         spCategory.setSelection(i);
@@ -128,10 +127,10 @@ public class AddProduct extends AppCompatActivity {
                     }
                 }
 
-                // load ảnh
-                if(p.getImage()!=null && !p.getImage().isEmpty()){
+                if(p.getImage()!=null){
                     imagePath=p.getImage();
-                    imgProduct.setImageURI(Uri.fromFile(new File(imagePath)));
+                    com.example.javatest.util.ImageLoader
+                            .load(imgProduct,imagePath);
                 }
                 break;
             }
