@@ -21,22 +21,15 @@
             android:textColor="#000"/>
 
         <!-- Ảnh upload -->
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imgProduct"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:elevation="4dp">
-
-            <TextView
-                android:text="Tải ảnh lên"
-                android:textColor="#E53935"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+            android:background="#FFF"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_camera"/>
 
         <!-- Tên -->
         <TextView
@@ -82,30 +75,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <EditText
-            android:id="@+id/edtCategory"
+        <Spinner
+            android:id="@+id/spCategory"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="#E0E0E0"
-            android:padding="10dp"
-            android:hint="Nhập loại sản phẩm"/>
+            android:background="#E0E0E0"/>
 
         <!-- Mô tả -->
-        <TextView
-            android:text="Mô Tả"
-            android:textColor="#E53935"
-            android:textSize="16sp"
-            android:layout_marginTop="15dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/edtDesc"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="#E0E0E0"
-            android:padding="10dp"
-            android:hint="Nhập mô tả sản phẩm"/>
 
         <!-- Buttons -->
         <LinearLayout

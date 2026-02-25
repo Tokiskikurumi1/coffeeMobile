@@ -1,82 +1,121 @@
 package com.example.javatest.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.javatest.R;
-import com.example.javatest.model.Product;
-
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdapter.ViewHolder> {
+import com.example.javatest.R;
+import com.example.javatest.account.AddProduct;
+import com.example.javatest.dao.CategoryDAO;
+import com.example.javatest.dao.ProductDAO;
+import com.example.javatest.model.Category;
+import com.example.javatest.model.Product;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdapter.ViewHolder>{
 
     Context context;
     ArrayList<Product> list;
-    OnAction action;
+    ArrayList<Product> originalList;
+    ProductDAO productDAO;
+    HashMap<Integer,String> cateMap = new HashMap<>();
 
-    // ✅ interface callback
-    public interface OnAction{
-        void onEdit(Product p);
-        void onDelete(Product p);
-    }
+    public ManageProductAdapter(Context c, ArrayList<Product> list){
+        this.context=c;
+        this.list=list;
+        this.originalList = new ArrayList<>(list);
+        productDAO = new ProductDAO(c);
 
-    // ✅ constructor đúng
-    public ManageProductAdapter(Context context, ArrayList<Product> list, OnAction action) {
-        this.context = context;
-        this.list = list;
-        this.action = action;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context)
-                .inflate(R.layout.layout_manage_product, parent, false);
-        return new ViewHolder(view);
+        CategoryDAO dao = new CategoryDAO(c);
+        List<Category> cates = dao.getAll();
+        for(Category ca: cates){
+            cateMap.put(ca.getId(), ca.getName());
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        View v = LayoutInflater.from(context)
+                .inflate(R.layout.layout_manage_product,parent,false);
+        return new ViewHolder(v);
+    }
 
-        Product product = list.get(position);
+    @Override
+    public void onBindViewHolder(ViewHolder h, int pos){
 
-        holder.txtName.setText(product.getNameFood());
-        holder.txtPrice.setText(product.getPrice()+" VNĐ");
+        Product p = list.get(pos);
 
-        holder.btnEdit.setOnClickListener(v -> {
-            if(action!=null) action.onEdit(product);
+        h.txtName.setText(p.getNameFood());
+        h.txtPrice.setText(p.getPrice()+" VNĐ");
+
+        // ⭐ hiển thị tên category
+        String cateName = cateMap.get(p.getIdCate());
+        h.txtCategory.setText(cateName==null?"":cateName);
+
+        // EDIT
+        h.btnEdit.setOnClickListener(v->{
+            Intent i = new Intent(context, AddProduct.class);
+            i.putExtra("id",p.getIdFood());
+            context.startActivity(i);
         });
 
-        holder.btnDelete.setOnClickListener(v -> {
-            if(action!=null) action.onDelete(product);
+        // DELETE + confirm dialog
+        h.btnDelete.setOnClickListener(v->{
+
+            new AlertDialog.Builder(context)
+                    .setTitle("Xóa sản phẩm")
+                    .setMessage("Bạn chắc chắn muốn xóa?")
+                    .setPositiveButton("Xóa",(d,w)->{
+                        productDAO.delete(p.getIdFood());
+                        list.remove(pos);
+                        notifyItemRemoved(pos);
+                    })
+                    .setNegativeButton("Hủy",null)
+                    .show();
         });
     }
 
     @Override
-    public int getItemCount() {
-        return list.size();
-    }
+    public int getItemCount(){return list.size();}
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView txtName,txtPrice;
+        TextView txtName,txtPrice,txtCategory;
         ImageButton btnEdit,btnDelete;
 
-        public ViewHolder(@NonNull View itemView){
-            super(itemView);
+        public ViewHolder(View v){
+            super(v);
 
-            txtName=itemView.findViewById(R.id.txtName);
-            txtPrice=itemView.findViewById(R.id.txtPrice);
-            btnEdit=itemView.findViewById(R.id.btnEdit);
-            btnDelete=itemView.findViewById(R.id.btnDelete);
+            txtName=v.findViewById(R.id.txtName);
+            txtPrice=v.findViewById(R.id.txtPrice);
+            txtCategory=v.findViewById(R.id.txtCategory); // ⭐ thêm
+            btnEdit=v.findViewById(R.id.btnEdit);
+            btnDelete=v.findViewById(R.id.btnDelete);
         }
+    }
+    public void filter(String key){
+        list.clear();
+
+        if(key.isEmpty()){
+            list.addAll(originalList);
+        }else{
+            key = key.toLowerCase();
+            for(Product p: originalList){
+                if(p.getNameFood().toLowerCase().contains(key)){
+                    list.add(p);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 }
