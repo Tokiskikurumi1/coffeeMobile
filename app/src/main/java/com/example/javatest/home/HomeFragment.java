@@ -13,10 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
 import com.example.javatest.adapter.SectionAdapter;
-import com.example.javatest.model.Product;
+import com.example.javatest.dao.ProductDAO;
+import com.example.javatest.model.SectionModel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -33,29 +32,17 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         rvSection = view.findViewById(R.id.rvSection);
+
+        // Layout dọc cho danh mục
         rvSection.setLayoutManager(
                 new LinearLayoutManager(getContext())
         );
 
-        List<Product> products = new ArrayList<>();
+        // Load dữ liệu theo section
+        ProductDAO dao = new ProductDAO(getContext());
+        List<SectionModel> sections = dao.getHomeSections();
 
-        products.add(new Product(1,"Cà phê đen",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
-        products.add(new Product(2,"Bạc xỉu",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
-        products.add(new Product(3,"Espresso",45000,R.mipmap.ic_launcher,"Cà phê máy"));
-        products.add(new Product(4,"Cappuccino",45000,R.mipmap.ic_launcher,"Cà phê máy"));
-        products.add(new Product(5,"Trà sữa trân châu",45000,R.mipmap.ic_launcher,"Trà sữa"));
-        products.add(new Product(6,"Sinh tố xoài",45000,R.mipmap.ic_launcher,"Sinh tố"));
-        products.add(new Product(7,"Cà phê đen",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
-        products.add(new Product(8,"Bạc xỉu",45000,R.mipmap.ic_launcher,"Cà phê truyền thống"));
-        List<String> categories = Arrays.asList(
-                "Cà phê truyền thống",
-                "Cà phê máy",
-                "Trà sữa",
-                "Sinh tố"
-        );
-
-        SectionAdapter adapter =
-                new SectionAdapter(getContext(), categories, products);
+        SectionAdapter adapter = new SectionAdapter(getContext(), sections);
 
         rvSection.setAdapter(adapter);
 

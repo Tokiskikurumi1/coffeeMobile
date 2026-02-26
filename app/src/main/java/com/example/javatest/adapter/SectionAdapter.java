@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
 import com.example.javatest.model.Product;
+import com.example.javatest.model.SectionModel;
 import com.example.javatest.product.ProductDetailFragment;
 
 import android.widget.TextView;
@@ -24,13 +25,11 @@ import java.util.List;
 public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionViewHolder> {
 
     private Context context;
-    private List<String> categories;
-    private List<Product> allProducts;
+    private List<SectionModel> sections;
 
-    public SectionAdapter(Context context, List<String> categories, List<Product> allProducts) {
+    public SectionAdapter(Context context, List<SectionModel> sections) {
         this.context = context;
-        this.categories = categories;
-        this.allProducts = allProducts;
+        this.sections = sections;
     }
 
     @NonNull
@@ -44,23 +43,18 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionV
     @Override
     public void onBindViewHolder(@NonNull SectionViewHolder holder, int position) {
 
-        String category = categories.get(position);
-        holder.txtTitle.setText(category);
+        SectionModel section = sections.get(position);
 
-        List<Product> filtered = new ArrayList<>();
+        holder.txtTitle.setText(section.getTitle());
 
-        for (Product p : allProducts) {
-            if (p.getCategory().equals(category)) {
-                filtered.add(p);
-            }
-        }
-
-        ProductAdapter adapter = new ProductAdapter(context, filtered, product -> {
+        ProductAdapter adapter = new ProductAdapter(context, section.getProducts(), product -> {
 
             Bundle bundle = new Bundle();
-            bundle.putString("name", product.getName());
-            bundle.putInt("price", product.getPrice());
-            bundle.putInt("image", product.getImageResId());
+            bundle.putInt("id", product.getIdFood());
+            bundle.putString("name", product.getNameFood());
+            bundle.putDouble("price",  product.getPrice());
+            bundle.putString("image", product.getImage());
+            bundle.putInt("cate", product.getIdCate());
 
             ProductDetailFragment fragment = new ProductDetailFragment();
             fragment.setArguments(bundle);
@@ -82,7 +76,7 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionV
 
     @Override
     public int getItemCount() {
-        return categories.size();
+        return sections.size();
     }
 
     static class SectionViewHolder extends RecyclerView.ViewHolder {

@@ -12,11 +12,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.appcompat.app.AlertDialog;
+import com.example.javatest.dao.UserDAO;
+import com.example.javatest.model.User;
 
 public class Login extends AppCompatActivity {
 
     EditText UserName, Password;
     Button btnLogin;
+    UserDAO dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class Login extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        dao = new UserDAO(this);
         // hàm ánh xạ
         anhXa();
     }
@@ -45,28 +49,25 @@ public class Login extends AppCompatActivity {
     // HÀM XỬ LÝ LOGIN
     // ===============================
     private void handleLogin() {
+
         String user = UserName.getText().toString().trim();
         String pass = Password.getText().toString().trim();
 
-        AlertDialog.Builder alter = new AlertDialog.Builder(Login.this);
-        alter.setTitle("Thông báo");
-        alter.setCancelable(false); // không bấm ra ngoài để tắt
+        User u = dao.checkLogin(user,pass);
 
+        if(u!=null){
 
+            // lưu id user đang login
+            getSharedPreferences("USER",MODE_PRIVATE)
+                    .edit()
+                    .putInt("id",u.getIdUser())
+                    .apply();
 
-        if (checkLogin(user, pass)) {
-            alter.setMessage("Login success!")
-                    .setPositiveButton("OK", (dialog, which) -> {
-                        Intent intent = new Intent(Login.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    })
-                    .show();
+            startActivity(new Intent(Login.this,MainActivity.class));
+            finish();
 
-        } else {
-            Toast.makeText(this,
-                    "Sai tài khoản hoặc mật khẩu",
-                    Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this,"Sai tài khoản",Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,20 +14,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
 import com.example.javatest.adapter.CartAdapter;
+import com.example.javatest.dao.BillDAO;
+import com.example.javatest.dao.BillDetailDAO;
 import com.example.javatest.model.CartItem;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartFragment extends Fragment implements CartAdapter.OnCartChangeListener {
 
     RecyclerView rvCart;
-    TextView txtTotal;
-    TextView tvEmpty;
+    TextView txtTotal, tvEmpty;
 
     CartAdapter adapter;
     List<CartItem> cartList;
+
+    Button btnPay;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,18 +40,10 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartChangeLi
 
         rvCart = view.findViewById(R.id.rvCart);
         txtTotal = view.findViewById(R.id.txtTotal);
+        tvEmpty = view.findViewById(R.id.tvEmpty);
 
-        // thêm cái TextView này vào fragment_cart nếu chưa có
-        tvEmpty = new TextView(getContext());
-        tvEmpty.setText("Giỏ hàng trống");
-        tvEmpty.setTextSize(18);
-        tvEmpty.setVisibility(View.GONE);
-
-        cartList = new ArrayList<>();
-
-        // 🔥 THÊM SẢN PHẨM DEMO
-        cartList.add(new CartItem("Trà sữa", 45000, 1, R.drawable.ic_launcher_background));
-        cartList.add(new CartItem("Cà phê sữa", 50000, 2, R.drawable.ic_launcher_background));
+        // 🔥 LẤY DATA TỪ CartManager
+        cartList = CartManager.getCartList();
 
         adapter = new CartAdapter(cartList, this);
 
@@ -55,9 +52,52 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartChangeLi
 
         updateUI();
 
+        btnPay = view.findViewById(R.id.btnPay);
+        btnPay.setOnClickListener(v -> payBill());
+
         return view;
     }
 
+    private void payBill(){
+
+        if(cartList.isEmpty()){
+            Toast.makeText(getContext(),"Giỏ hàng trống",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        BillDAO billDAO = new BillDAO(getContext());
+        BillDetailDAO detailDAO = new BillDetailDAO(getContext());
+
+        // 🔥 tạo bill
+        long idBill = billDAO.createBill();
+
+        double total = 0;
+
+        // 🔥 insert từng món
+        for(CartItem item : cartList){
+
+            detailDAO.insert(
+                    (int)idBill,
+                    item.getIdFood(),
+                    item.getQuantity(),
+                    item.getPrice()
+            );
+
+            total += item.getPrice() * item.getQuantity();
+        }
+
+        // 🔥 update tổng tiền
+        billDAO.payBill((int)idBill,total);
+
+        // 🔥 clear giỏ
+        CartManager.clear();
+
+        adapter.notifyDataSetChanged();
+        updateUI();
+
+        Toast.makeText(getContext(),"Thanh toán thành công",Toast.LENGTH_SHORT).show();
+        billDAO.debugBills();
+    }
     private void updateUI() {
 
         if (cartList.isEmpty()) {
@@ -71,9 +111,10 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartChangeLi
         }
     }
 
-
     private void calculateTotal() {
-        int total = 0;
+
+        double total = 0;
+
         for (CartItem item : cartList) {
             total += item.getPrice() * item.getQuantity();
         }
@@ -84,6 +125,9 @@ public class CartFragment extends Fragment implements CartAdapter.OnCartChangeLi
 
     @Override
     public void onCartChanged() {
+        adapter.notifyDataSetChanged();
         updateUI();
     }
+
+
 }

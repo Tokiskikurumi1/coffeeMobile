@@ -46,6 +46,12 @@
         android:textColor="#E53935"
         android:layout_marginTop="12dp"/>
 
+    <Spinner
+        android:id="@+id/spFilter"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"/>
+
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvProduct"

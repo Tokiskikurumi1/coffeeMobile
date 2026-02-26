@@ -2,24 +2,25 @@ package com.example.javatest.model;
 
 public class CartItem {
 
+    private int idFood;
     private String name;
-    private int price;
+    private double price;
     private int quantity;
-    private int image;
+    private String image;
 
-    public CartItem(String name, int price, int quantity, int image) {
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.image = image;
+    public CartItem(int idFood,String name,double price,int quantity,String image){
+        this.idFood=idFood;
+        this.name=name;
+        this.price=price;
+        this.quantity=quantity;
+        this.image=image;
     }
 
-    public String getName() { return name; }
-    public int getPrice() { return price; }
-    public int getQuantity() { return quantity; }
-    public int getImage() { return image; }
+    public int getIdFood(){return idFood;}
+    public String getName(){return name;}
+    public double getPrice(){return price;}
+    public int getQuantity(){return quantity;}
+    public String getImage(){return image;}
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+    public void setQuantity(int q){quantity=q;}
 }

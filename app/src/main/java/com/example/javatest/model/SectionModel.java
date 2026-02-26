@@ -5,9 +5,9 @@ import java.util.List;
 public class SectionModel {
 
     private String title;
-    private List<String> products;
+    private List<Product> products;
 
-    public SectionModel(String title, List<String> products) {
+    public SectionModel(String title, List<Product> products) {
         this.title = title;
         this.products = products;
     }
@@ -16,7 +16,7 @@ public class SectionModel {
         return title;
     }
 
-    public List<String> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 }

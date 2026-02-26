@@ -2,25 +2,25 @@ package com.example.javatest.model;
 
 public class Revenue {
 
-    private String maHD;
-    private String ngayTao;
-    private double tongTien;
+    int idBill;
+    String date;
+    double total;
 
-    public Revenue(String maHD, String ngayTao, double tongTien) {
-        this.maHD = maHD;
-        this.ngayTao = ngayTao;
-        this.tongTien = tongTien;
+    public Revenue(int idBill, String date, double total) {
+        this.idBill = idBill;
+        this.date = date;
+        this.total = total;
     }
 
-    public String getMaHD() {
-        return maHD;
+    public int getIdBill() {
+        return idBill;
     }
 
-    public String getNgayTao() {
-        return ngayTao;
+    public String getDate() {
+        return date;
     }
 
-    public double getTongTien() {
-        return tongTien;
+    public double getTotal() {
+        return total;
     }
 }

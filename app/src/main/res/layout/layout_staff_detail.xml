@@ -2,47 +2,66 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="#F5F5F5">
 
     <LinearLayout
+        android:padding="20dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/editId"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mã nhân viên"/>
+            android:padding="16dp">
 
-        <EditText
-            android:id="@+id/editName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Họ tên"
-            android:layout_marginTop="8dp"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/editDob"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ngày sinh"
-            android:layout_marginTop="8dp"/>
+                <!-- ID readonly -->
+                <EditText
+                    android:id="@+id/editId"
+                    android:enabled="false"
+                    android:hint="ID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-        <EditText
-            android:id="@+id/editGender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Giới tính"
-            android:layout_marginTop="8dp"/>
+                <EditText
+                    android:id="@+id/editName"
+                    android:hint="Họ tên"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/btnUpdate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cập nhật"
-            android:backgroundTint="#E53935"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="16dp"/>
+                <EditText
+                    android:id="@+id/editDob"
+                    android:hint="Ngày sinh"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <Spinner
+                    android:id="@+id/spGender"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:text="Cập nhật"
+                    android:backgroundTint="#E53935"
+                    android:textColor="@android:color/white"
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 </ScrollView>
