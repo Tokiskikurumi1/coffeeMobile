@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.javatest.database.DatabaseHelper;
 import com.example.javatest.model.Product;
@@ -20,8 +21,15 @@ public class ProductDAO {
         dbHelper = new DatabaseHelper(context);
     }
 
+
     // ✅ INSERT PRODUCT
     public long insert(Product p) {
+
+        // ❌ trùng tên
+        if(isNameExists(p.getNameFood(), -1)){
+            Log.d("PRODUCT", "Tên đã tồn tại");
+            return -1;
+        }
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -36,6 +44,12 @@ public class ProductDAO {
 
     // ✅ UPDATE PRODUCT
     public int update(Product p) {
+
+        // ❌ trùng tên (trừ chính nó)
+        if(isNameExists(p.getNameFood(), p.getIdFood())){
+            Log.d("PRODUCT", "Tên đã tồn tại");
+            return -1;
+        }
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -171,4 +185,21 @@ public class ProductDAO {
         c.close();
         return null;
     }
+
+    // 🔎 CHECK NAME EXIST
+    public boolean isNameExists(String nameFood, int excludeId){
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor c = db.rawQuery(
+                "SELECT idFood FROM menu WHERE LOWER(nameFood)=LOWER(?) AND idFood!=?",
+                new String[]{nameFood, String.valueOf(excludeId)}
+        );
+
+        boolean exists = c.moveToFirst();
+        c.close();
+
+        return exists;
+    }
+
 }
