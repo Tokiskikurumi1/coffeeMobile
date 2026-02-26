@@ -75,6 +75,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("INSERT INTO menu VALUES(9,3,'Socola đá xay',50000,'cf_den')");
         db.execSQL("INSERT INTO menu VALUES(10,3,'Matcha đá xay',52000,'cf_den')");
+
+        // ===== INSERT ADMIN =====
+        db.execSQL("INSERT INTO user(name,dob,gender,userName,password,role) " +
+                "VALUES('Admin','01/01/2000','Nam','admin','admin',0)");
     }
 
     @Override

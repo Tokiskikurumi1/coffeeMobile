@@ -38,14 +38,19 @@
             android:layout_marginBottom="15dp"/>
 
         <EditText
-            android:id="@+id/edtPhone"
+            android:id="@+id/edtDob"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Số điện thoại"
-            android:inputType="phone"
+            android:focusable="false"
+            android:clickable="true"
+            android:hint="Ngày sinh"
             android:background="@drawable/bg_input"
             android:padding="12dp"
             android:layout_marginBottom="15dp"/>
+        <Spinner
+            android:id="@+id/spGender"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
 
         <EditText
             android:id="@+id/edtUsername"
