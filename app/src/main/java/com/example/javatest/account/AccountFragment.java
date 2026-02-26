@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,11 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.javatest.Login;
-import com.example.javatest.MainActivity;
 import com.example.javatest.R;
-import com.example.javatest.account.RevenueFragment;
-import com.example.javatest.account.ManageProductFragment;
-import com.example.javatest.account.ManageStaff;
 
 public class AccountFragment extends Fragment {
 
@@ -72,7 +67,7 @@ public class AccountFragment extends Fragment {
         btnNhanVien.setOnClickListener(v -> {
             getParentFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, new ManageStaff())
+                    .replace(R.id.fragment_container, new ManageStaffFragment())
                     .addToBackStack(null)
                     .commit();
         });

@@ -1,10 +1,10 @@
 package com.example.javatest.product;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.*;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,19 +13,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
-import com.example.javatest.adapter.ProductAdapter;
 import com.example.javatest.adapter.ProductVerticalAdapter;
+import com.example.javatest.dao.CategoryDAO;
 import com.example.javatest.dao.ProductDAO;
+import com.example.javatest.model.Category;
 import com.example.javatest.model.Product;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProductFragment extends Fragment {
 
-    RecyclerView rcvProduct;
-    List<Product> listFilter;
+    RecyclerView recyclerView;
+    ProductVerticalAdapter adapter;
+
+    ArrayList<Product> list;
+    Spinner spFilter;
     EditText edtSearch;
+
+    CategoryDAO cateDAO;
+    ArrayList<Category> cateList;
 
     @Nullable
     @Override
@@ -35,19 +41,18 @@ public class ProductFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_list_product, container, false);
 
-        rcvProduct = view.findViewById(R.id.rcvProduct);
+        recyclerView = view.findViewById(R.id.rcvProduct);
+        spFilter = view.findViewById(R.id.spFilter);
         edtSearch = view.findViewById(R.id.edtSearch);
 
-        // set layout dọc
-        rcvProduct.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         ProductDAO dao = new ProductDAO(getContext());
-        List<Product> list = dao.getAll();
-        listFilter = new ArrayList<>(list);
-        ProductVerticalAdapter adapter = new ProductVerticalAdapter(listFilter, product -> {
+        list = new ArrayList<>(dao.getAll());
+
+        adapter = new ProductVerticalAdapter(list, product -> {
 
             Bundle bundle = new Bundle();
-
             bundle.putInt("id", product.getIdFood());
             bundle.putInt("cate", product.getIdCate());
             bundle.putString("name", product.getNameFood());
@@ -64,32 +69,84 @@ public class ProductFragment extends Fragment {
                     .commit();
         });
 
-        rcvProduct.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
-        edtSearch.addTextChangedListener(new android.text.TextWatcher() {
+        // ===== CATEGORY =====
+        cateDAO = new CategoryDAO(getContext());
+        cateList = new ArrayList<>(cateDAO.getAll());
+
+        ArrayList<String> names = new ArrayList<>();
+        names.add("Tất cả");
+
+        for(Category c : cateList){
+            names.add(c.getName());
+        }
+
+        ArrayAdapter<String> ad = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                names
+        );
+
+        spFilter.setAdapter(ad);
+
+        // ===== FILTER CATEGORY =====
+        spFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id){
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ProductDAO dao = new ProductDAO(getContext());
 
-                String keyword = s.toString().toLowerCase();
+                list.clear();
 
-                listFilter.clear();
-
-                for(Product p : list){
-                    if(p.getNameFood().toLowerCase().contains(keyword)){
-                        listFilter.add(p);
-                    }
+                if(pos==0){
+                    list.addAll(dao.getAll());
+                }else{
+                    int cateId = cateList.get(pos-1).getId();
+                    list.addAll(dao.getByCategory(cateId));
                 }
 
                 adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void afterTextChanged(android.text.Editable s) {}
+            public void onNothingSelected(AdapterView<?> parent){}
+        });
+
+        // ===== SEARCH =====
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s,int st,int c,int a){}
+            @Override public void afterTextChanged(Editable s){}
+
+            @Override
+            public void onTextChanged(CharSequence s, int st, int b, int c){
+
+                ProductDAO dao = new ProductDAO(getContext());
+                String keyword = s.toString().toLowerCase();
+
+                list.clear();
+
+                for(Product p : dao.getAll()){
+                    if(p.getNameFood().toLowerCase().contains(keyword)){
+                        list.add(p);
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+            }
         });
 
         return view;
+    }
+
+    // 🔥 reload khi thêm sản phẩm
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ProductDAO dao = new ProductDAO(getContext());
+        list.clear();
+        list.addAll(dao.getAll());
+        adapter.notifyDataSetChanged();
     }
 }

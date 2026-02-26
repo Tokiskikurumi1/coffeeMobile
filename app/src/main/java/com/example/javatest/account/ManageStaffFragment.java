@@ -12,17 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.javatest.R;
 import com.example.javatest.adapter.StaffAdapter;
-import com.example.javatest.model.Staff;
+import com.example.javatest.dao.StaffDAO;
+import com.example.javatest.model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class ManageStaff extends Fragment {
+public class ManageStaffFragment extends Fragment {
 
     RecyclerView recyclerView;
     FloatingActionButton fabAdd;
-    ArrayList<Staff> list;
+
+    ArrayList<User> list;
     StaffAdapter adapter;
+    StaffDAO dao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,20 +36,28 @@ public class ManageStaff extends Fragment {
         recyclerView = view.findViewById(R.id.rcvStaff);
         fabAdd = view.findViewById(R.id.fabAddStaff);
 
+        dao = new StaffDAO(getContext());
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        list = new ArrayList<>();
-        list.add(new Staff("NV01", "Nguyễn Văn A", "01/01/2000", "Nam"));
-        list.add(new Staff("NV02", "Trần Thị B", "02/02/2001", "Nữ"));
-
-        adapter = new StaffAdapter(getContext(), list);
-        recyclerView.setAdapter(adapter);
+        loadData();
 
         fabAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), AddStaffActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(getContext(), AddStaffActivity.class));
         });
 
         return view;
+    }
+
+    private void loadData(){
+        list = new ArrayList<>(dao.getAllStaff());
+        adapter = new StaffAdapter(getContext(), list);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
     }
 }

@@ -22,7 +22,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "name TEXT," +
                 "dob TEXT," +
                 "gender TEXT," +
-                "address TEXT," +
                 "userName TEXT UNIQUE," +
                 "password TEXT," +
                 "role INTEGER)");
