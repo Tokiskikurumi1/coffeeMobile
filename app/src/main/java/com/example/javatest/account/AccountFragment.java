@@ -72,16 +72,6 @@ public class AccountFragment extends Fragment {
                     .commit();
         });
 
-        // Thêm loại sản phẩm
-        LinearLayout btnLoaiSP = view.findViewById(R.id.btnAddCategory);
-
-        btnLoaiSP.setOnClickListener(v -> {
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new ManageProductFragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
 
         // Đăng xuất
         LinearLayout btnLogOut = view.findViewById(R.id.btnLogout);
