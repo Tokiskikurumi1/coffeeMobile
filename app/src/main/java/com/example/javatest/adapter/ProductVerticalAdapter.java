@@ -74,8 +74,8 @@ public class ProductVerticalAdapter extends RecyclerView.Adapter<ProductVertical
             imgProduct = itemView.findViewById(R.id.imgProduct);
             txtName = itemView.findViewById(R.id.txtName);
             txtPrice = itemView.findViewById(R.id.txtPrice);
-            btnAdd = itemView.findViewById(R.id.btnAdd);
-            btnMore = itemView.findViewById(R.id.btnMore);
+//            btnAdd = itemView.findViewById(R.id.btnAdd);
+//            btnMore = itemView.findViewById(R.id.btnMore);
         }
     }
 }
