@@ -20,10 +20,12 @@ import com.example.javatest.model.Category;
 import com.example.javatest.model.Product;
 import com.example.javatest.util.ImageLoader;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Locale;
 public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdapter.ViewHolder>{
 
     Context context;
@@ -58,7 +60,9 @@ public class ManageProductAdapter extends RecyclerView.Adapter<ManageProductAdap
         Product p=list.get(pos);
 
         h.txtName.setText(p.getNameFood());
-        h.txtPrice.setText(p.getPrice()+" VNĐ");
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        long price = (long) p.getPrice();
+        h.txtPrice.setText(formatter.format(price) + " VND");
 
         String cateName=cateMap.get(p.getIdCate());
         h.txtCategory.setText(cateName==null?"":cateName);

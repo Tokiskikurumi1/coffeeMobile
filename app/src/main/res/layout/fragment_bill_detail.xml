@@ -11,7 +11,7 @@
         android:id="@+id/txtBillId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bill"
+        android:text="Mã hóa đơn: "
         android:textSize="20sp"
         android:textStyle="bold"/>
 
@@ -25,7 +25,7 @@
         android:id="@+id/txtTotalBill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total"
+        android:text="Tổng tiền: "
         android:textSize="18sp"
         android:textStyle="bold"
         android:height="50dp"/>

@@ -15,6 +15,7 @@ import com.example.javatest.model.Product;
 import com.example.javatest.util.ImageLoader;
 
 import java.util.List;
+import java.util.Locale;
 
 public class ProductVerticalAdapter extends RecyclerView.Adapter<ProductVerticalAdapter.ViewHolder> {
 
@@ -46,7 +47,9 @@ public class ProductVerticalAdapter extends RecyclerView.Adapter<ProductVertical
         Product product = list.get(position);
 
         holder.txtName.setText(product.getNameFood());
-        holder.txtPrice.setText(product.getPrice() + " VNĐ");
+        holder.txtPrice.setText(
+                String.format(Locale.getDefault(), "%,.0f VND", product.getPrice())
+        );
 
         ImageLoader.load(holder.imgProduct, product.getImage());
 

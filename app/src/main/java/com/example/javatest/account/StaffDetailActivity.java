@@ -14,7 +14,7 @@ import java.util.Calendar;
 
 public class StaffDetailActivity extends AppCompatActivity {
 
-    EditText edtId, edtName, edtDob;
+    EditText edtId, edtName, edtDob, edtPass, edtUser;
     Spinner spGender;
     Button btnUpdate;
 
@@ -28,6 +28,8 @@ public class StaffDetailActivity extends AppCompatActivity {
 
         edtId = findViewById(R.id.editId);
         edtName = findViewById(R.id.editName);
+        edtUser = findViewById(R.id.editUser);
+        edtPass = findViewById(R.id.editPass);
         edtDob = findViewById(R.id.editDob);
         spGender = findViewById(R.id.spGender);
         btnUpdate = findViewById(R.id.btnUpdate);
@@ -45,11 +47,13 @@ public class StaffDetailActivity extends AppCompatActivity {
         String name = getIntent().getStringExtra("name");
         String dob = getIntent().getStringExtra("dob");
         String gender = getIntent().getStringExtra("gender");
-
+        String user = getIntent().getStringExtra("userName");
+        String pass = getIntent().getStringExtra("password");
         edtId.setText(String.valueOf(id));
         edtName.setText(name);
         edtDob.setText(dob);
-
+        edtUser.setText(user);
+        edtPass.setText(pass);
         // set gender position
         for(int i=0;i<genderList.length;i++){
             if(genderList[i].equals(gender)){
@@ -81,7 +85,8 @@ public class StaffDetailActivity extends AppCompatActivity {
             u.setName(edtName.getText().toString());
             u.setDob(edtDob.getText().toString());
             u.setGender(spGender.getSelectedItem().toString());
-
+            u.setUserName(edtUser.getText().toString());
+            u.setPassword(edtPass.getText().toString());
             if(dao.updateStaff(u)){
                 Toast.makeText(this,"Đã cập nhật",Toast.LENGTH_SHORT).show();
                 finish();

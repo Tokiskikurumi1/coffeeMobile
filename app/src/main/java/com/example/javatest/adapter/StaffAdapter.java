@@ -80,6 +80,8 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffAdapter.ViewHolder> 
             i.putExtra("name", user.getName());
             i.putExtra("dob", user.getDob());
             i.putExtra("gender", user.getGender());
+            i.putExtra("userName", user.getUserName());
+            i.putExtra("password", user.getPassword());
 
             context.startActivity(i);
         });

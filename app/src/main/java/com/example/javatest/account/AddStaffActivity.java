@@ -14,7 +14,7 @@ import java.util.Calendar;
 
 public class AddStaffActivity extends AppCompatActivity {
 
-    EditText edtName, edtDob, edtUser, edtPass;
+    EditText edtName ,edtDob, edtUser, edtPass;
     Spinner spGender;
     Button btnAdd;
 
