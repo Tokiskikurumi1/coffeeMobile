@@ -70,7 +70,7 @@ public class Login extends AppCompatActivity {
             finish();
 
         }else{
-            Toast.makeText(this,"Sai tài khoản",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Sai tài khoản hoặc mật khẩu",Toast.LENGTH_SHORT).show();
         }
     }
 

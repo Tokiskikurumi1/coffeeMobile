@@ -31,6 +31,7 @@ public class RevenueFragment extends Fragment {
     ArrayList<Revenue> list;
     EditText edtStartDate, edtEndDate;
     Button btnFilter;
+    TextView btnBack;
     TextView txtTotalRevenue;
 
     @Nullable
@@ -46,7 +47,7 @@ public class RevenueFragment extends Fragment {
         edtStartDate = view.findViewById(R.id.edtStart);
         edtEndDate = view.findViewById(R.id.edtEnd);
         btnFilter = view.findViewById(R.id.btnFilter);
-
+        btnBack = view.findViewById(R.id.btnBack);
         txtTotalRevenue = view.findViewById(R.id.txtTotalRevenue);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -67,7 +68,9 @@ public class RevenueFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
-
+        btnBack.setOnClickListener(v -> {
+            getParentFragmentManager().popBackStack();
+        });
         recyclerView.setAdapter(adapter);
         updateTotalRevenue();
         // DATE PICKER START

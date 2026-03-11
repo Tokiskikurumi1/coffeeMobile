@@ -18,7 +18,7 @@ public class ProfileFragment extends Fragment {
     EditText edtName,edtDob,edtUsername,edtPassword;
     Spinner spGender;
     Button btnSave;
-
+    TextView btnBack;
     UserDAO dao;
     int id;
 
@@ -34,8 +34,12 @@ public class ProfileFragment extends Fragment {
         edtPassword=view.findViewById(R.id.edtPassword);
         spGender=view.findViewById(R.id.spGender);
         btnSave=view.findViewById(R.id.btnSave);
-
+        btnBack = view.findViewById(R.id.btnBack);
         dao=new UserDAO(getContext());
+
+        btnBack.setOnClickListener(v -> {
+            getParentFragmentManager().popBackStack();
+        });
 
         // spinner gender
         String[] g={"Nam","Nữ","Khác"};
