@@ -14,7 +14,44 @@
         android:text="Mã hóa đơn: "
         android:textSize="20sp"
         android:textStyle="bold"/>
+    <!-- Header 3 cột -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:textColor="#E53935"
+            android:text="Tên sản phẩm"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:paddingLeft="30dp"
+            android:text="SL"
+            android:textColor="#E53935"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Giá"
+            android:textColor="#E53935"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDetail"
         android:layout_width="match_parent"
@@ -28,6 +65,7 @@
         android:text="Tổng tiền: "
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="#E53935"
         android:height="50dp"/>
 
 </LinearLayout>

@@ -56,8 +56,9 @@ public class BillDetailFragment extends Fragment {
             list.add(new BillDetailItem(name, qty, price));
         }
 
-        txtTotal.setText("Tổng tiền: " + total);
-
+        txtTotal.setText(
+                "Tổng tiền: " + String.format("%,.0f VND", total)
+        );
         BillDetailAdapter adapter = new BillDetailAdapter(list);
         rv.setAdapter(adapter);
 
