@@ -62,6 +62,7 @@ public class Login extends AppCompatActivity {
                     .edit()
                     .putInt("id",u.getIdUser())
                     .putInt("role",u.getRole())
+                    .putString("name",u.getName())
                     .apply();
 
             Toast.makeText(this,"Đăng nhập thành công",Toast.LENGTH_SHORT).show();

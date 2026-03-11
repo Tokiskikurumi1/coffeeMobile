@@ -98,8 +98,15 @@ public class RevenueFragment extends Fragment {
                 (view, year, month, day) -> {
 
                     Calendar selected = Calendar.getInstance();
-                    selected.set(year, month, day, 23, 59, 59);
-
+//                    selected.set(year, month, day, 23, 59, 59);
+                    // nếu là ngày bắt đầu
+                    if(edt.getId() == R.id.edtStart){
+                        selected.set(year, month, day, 0, 0, 0);
+                    }
+                    // nếu là ngày kết thúc
+                    else{
+                        selected.set(year, month, day, 23, 59, 59);
+                    }
                     long time = selected.getTimeInMillis();
 
                     edt.setText(day + "/" + (month+1) + "/" + year);
