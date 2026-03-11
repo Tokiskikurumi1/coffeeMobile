@@ -62,12 +62,47 @@ public class AddStaffActivity extends AppCompatActivity {
         // ===== Add staff =====
         btnAdd.setOnClickListener(v -> {
 
-            String name = edtName.getText().toString();
-            String dob = edtDob.getText().toString();
+            String name = edtName.getText().toString().trim();
+            String dob = edtDob.getText().toString().trim();
             String gender = spGender.getSelectedItem().toString();
-            String user = edtUser.getText().toString();
-            String pass = edtPass.getText().toString();
+            String user = edtUser.getText().toString().trim();
+            String pass = edtPass.getText().toString().trim();
 
+            // ===== CHECK RỖNG =====
+            if(name.isEmpty()){
+                edtName.setError("Không được để trống tên");
+                edtName.requestFocus();
+                return;
+            }
+
+            if(user.isEmpty()){
+                edtUser.setError("Không được để trống username");
+                edtUser.requestFocus();
+                return;
+            }
+
+            if(pass.isEmpty()){
+                edtPass.setError("Không được để trống mật khẩu");
+                edtPass.requestFocus();
+                return;
+            }
+
+            if(dob.isEmpty()){
+                edtDob.setError("Không được để trống ngày sinh");
+                edtDob.requestFocus();
+                return;
+            }
+
+
+
+            // ===== PASSWORD TỐI THIỂU =====
+            if(pass.length() < 6){
+                edtPass.setError("Mật khẩu phải >= 6 ký tự");
+                edtPass.requestFocus();
+                return;
+            }
+
+            // ===== INSERT =====
             User u = new User(name, dob, gender, user, pass, 1);
 
             if (dao.insertStaff(u)) {

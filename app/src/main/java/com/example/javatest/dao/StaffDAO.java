@@ -62,18 +62,25 @@ public class StaffDAO {
     }
 
     // 🔹 Cập nhật staff
-    public boolean updateStaff(User user) {
+    public boolean updateStaff(User u){
+
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
 
-        values.put("name", user.getName());
-        values.put("dob", user.getDob());
-        values.put("gender", user.getGender());
+        ContentValues v = new ContentValues();
+        v.put("name", u.getName());
+        v.put("dob", u.getDob());
+        v.put("gender", u.getGender());
+        v.put("userName", u.getUserName());
+        v.put("password", u.getPassword());
 
-        int result = db.update("user", values,
-                "idUser=?", new String[]{String.valueOf(user.getIdUser())});
+        int r = db.update(
+                "user",
+                v,
+                "idUser=?",
+                new String[]{String.valueOf(u.getIdUser())}
+        );
 
-        return result > 0;
+        return r > 0;
     }
 
     // 🔹 Xóa staff

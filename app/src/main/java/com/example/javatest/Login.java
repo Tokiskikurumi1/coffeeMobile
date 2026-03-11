@@ -61,8 +61,10 @@ public class Login extends AppCompatActivity {
             getSharedPreferences("USER",MODE_PRIVATE)
                     .edit()
                     .putInt("id",u.getIdUser())
+                    .putInt("role",u.getRole())
                     .apply();
 
+            Toast.makeText(this,"Đăng nhập thành công",Toast.LENGTH_SHORT).show();
             startActivity(new Intent(Login.this,MainActivity.class));
             finish();
 

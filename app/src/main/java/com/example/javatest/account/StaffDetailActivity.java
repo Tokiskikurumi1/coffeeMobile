@@ -80,13 +80,50 @@ public class StaffDetailActivity extends AppCompatActivity {
         // update
         btnUpdate.setOnClickListener(v -> {
 
+            String namEdt = edtName.getText().toString().trim();
+            String dobEdt = edtDob.getText().toString().trim();
+            String userEdt = edtUser.getText().toString().trim();
+            String passEdt = edtPass.getText().toString().trim();
+            String genderEdt = spGender.getSelectedItem().toString();
+
+            // kiểm tra rỗng
+            if(namEdt.isEmpty()){
+                edtName.setError("Không được để trống tên");
+                edtName.requestFocus();
+                return;
+            }
+
+            if(dobEdt.isEmpty()){
+                edtDob.setError("Không được để trống ngày sinh");
+                edtDob.requestFocus();
+                return;
+            }
+
+            if(userEdt.isEmpty()){
+                edtUser.setError("Không được để trống username");
+                edtUser.requestFocus();
+                return;
+            }
+
+            if(passEdt.isEmpty()){
+                edtPass.setError("Không được để trống mật khẩu");
+                edtPass.requestFocus();
+                return;
+            }
+            if(passEdt.length() < 6){
+                edtPass.setError("Mật khẩu phải >= 6 ký tự");
+                edtPass.requestFocus();
+                return;
+            }
+            // nếu hợp lệ thì update
             User u = new User();
             u.setIdUser(id);
-            u.setName(edtName.getText().toString());
-            u.setDob(edtDob.getText().toString());
-            u.setGender(spGender.getSelectedItem().toString());
-            u.setUserName(edtUser.getText().toString());
-            u.setPassword(edtPass.getText().toString());
+            u.setName(namEdt);
+            u.setDob(dobEdt);
+            u.setGender(genderEdt);
+            u.setUserName(userEdt);
+            u.setPassword(passEdt);
+
             if(dao.updateStaff(u)){
                 Toast.makeText(this,"Đã cập nhật",Toast.LENGTH_SHORT).show();
                 finish();
