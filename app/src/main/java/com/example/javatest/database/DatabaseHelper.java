@@ -61,20 +61,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO category VALUES(1,'Cà phê')");
         db.execSQL("INSERT INTO category VALUES(2,'Trà sữa')");
         db.execSQL("INSERT INTO category VALUES(3,'Đá xay')");
-
+        db.execSQL("INSERT INTO category VALUES(4,'Trà')");
         // ===== INSERT MENU =====
         db.execSQL("INSERT INTO menu VALUES(1,1,'Cà phê đen',30000,'cf_den')");
-        db.execSQL("INSERT INTO menu VALUES(2,1,'Cà phê sữa',35000,'cf_den')");
-        db.execSQL("INSERT INTO menu VALUES(3,1,'Bạc xỉu',38000,'cf_den')");
-        db.execSQL("INSERT INTO menu VALUES(4,1,'Americano',40000,'cf_den')");
-        db.execSQL("INSERT INTO menu VALUES(5,1,'Latte',42000,'cf_den')");
+        db.execSQL("INSERT INTO menu VALUES(2,1,'Cà phê sữa',35000,'cf_sua')");
+        db.execSQL("INSERT INTO menu VALUES(3,1,'Bạc xỉu',38000,'cf_bac_xiu')");
+        db.execSQL("INSERT INTO menu VALUES(4,1,'Americano',40000,'cf_american_coffee')");
+        db.execSQL("INSERT INTO menu VALUES(5,1,'Latte',42000,'cf_latte')");
 
-        db.execSQL("INSERT INTO menu VALUES(6,2,'Trà sữa trân châu',45000,'cf_den')");
-        db.execSQL("INSERT INTO menu VALUES(7,2,'Trà sữa matcha',48000,'cf_den')");
-        db.execSQL("INSERT INTO menu VALUES(8,2,'Trà sữa socola',47000,'cf_den')");
+        db.execSQL("INSERT INTO menu VALUES(6,2,'Trà sữa trân châu',45000,'cf_trasua_chantrau')");
+        db.execSQL("INSERT INTO menu VALUES(7,2,'Trà sữa matcha',48000,'cf_tra_sua_matcha')");
+        db.execSQL("INSERT INTO menu VALUES(8,2,'Trà sữa socola',47000,'cf_tra_sua_scl')");
 
-        db.execSQL("INSERT INTO menu VALUES(9,3,'Socola đá xay',50000,'cf_den')");
-        db.execSQL("INSERT INTO menu VALUES(10,3,'Matcha đá xay',52000,'cf_den')");
+        db.execSQL("INSERT INTO menu VALUES(9,3,'Socola đá xay',50000,'cf_scl_da_xay')");
+        db.execSQL("INSERT INTO menu VALUES(10,3,'Matcha đá xay',52000,'cf_matcha_da_xay')");
 
         // ===== INSERT ADMIN =====
         db.execSQL("INSERT INTO user(name,dob,gender,userName,password,role) " +

@@ -44,34 +44,40 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionV
     public void onBindViewHolder(@NonNull SectionViewHolder holder, int position) {
 
         SectionModel section = sections.get(position);
-
         holder.txtTitle.setText(section.getTitle());
 
-        ProductAdapter adapter = new ProductAdapter(context, section.getProducts(), product -> {
+        // 🔥 IMPORTANT — chỉ set adapter 1 lần
+        if (holder.rvHorizontal.getAdapter() == null) {
 
-            Bundle bundle = new Bundle();
-            bundle.putInt("id", product.getIdFood());
-            bundle.putString("name", product.getNameFood());
-            bundle.putDouble("price",  product.getPrice());
-            bundle.putString("image", product.getImage());
-            bundle.putInt("cate", product.getIdCate());
+            ProductAdapter adapter = new ProductAdapter(
+                    context,
+                    new ArrayList<>(section.getProducts()), // clone list
+                    product -> {
 
-            ProductDetailFragment fragment = new ProductDetailFragment();
-            fragment.setArguments(bundle);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id", product.getIdFood());
+                        bundle.putString("name", product.getNameFood());
+                        bundle.putDouble("price", product.getPrice());
+                        bundle.putString("image", product.getImage());
+                        bundle.putInt("cate", product.getIdCate());
 
-            FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
+                        ProductDetailFragment fragment = new ProductDetailFragment();
+                        fragment.setArguments(bundle);
 
-            fm.beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
+                        FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
 
-        holder.rvHorizontal.setLayoutManager(
-                new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        );
+                        fm.beginTransaction()
+                                .replace(R.id.fragment_container, fragment)
+                                .addToBackStack(null)
+                                .commit();
+                    });
 
-        holder.rvHorizontal.setAdapter(adapter);
+            holder.rvHorizontal.setLayoutManager(
+                    new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            );
+
+            holder.rvHorizontal.setAdapter(adapter);
+        }
     }
 
     @Override

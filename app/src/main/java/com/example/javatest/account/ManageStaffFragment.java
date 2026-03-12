@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +26,7 @@ public class ManageStaffFragment extends Fragment {
 
     ArrayList<User> list;
     StaffAdapter adapter;
+    TextView btnBack;
     StaffDAO dao;
 
     @Override
@@ -35,7 +37,7 @@ public class ManageStaffFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.rcvStaff);
         fabAdd = view.findViewById(R.id.fabAddStaff);
-
+        btnBack = view.findViewById(R.id.btnBack);
         dao = new StaffDAO(getContext());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -45,7 +47,9 @@ public class ManageStaffFragment extends Fragment {
         fabAdd.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), AddStaffActivity.class));
         });
-
+        btnBack.setOnClickListener(v -> {
+            getParentFragmentManager().popBackStack();
+        });
         return view;
     }
 

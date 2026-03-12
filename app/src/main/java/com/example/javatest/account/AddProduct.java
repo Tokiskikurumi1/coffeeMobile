@@ -140,30 +140,59 @@ public class AddProduct extends AppCompatActivity {
     // =============================
     void save(){
 
-        String name=edtName.getText().toString();
-        String priceStr=edtPrice.getText().toString();
+        String name = edtName.getText().toString().trim();
+        String priceStr = edtPrice.getText().toString().trim();
 
-        if(name.isEmpty()||priceStr.isEmpty()){
+        if(name.isEmpty() || priceStr.isEmpty()){
             Toast.makeText(this,"Nhập đủ thông tin",Toast.LENGTH_SHORT).show();
             return;
         }
 
-        double price=Double.parseDouble(priceStr);
-        int cateId=cateList.get(spCategory.getSelectedItemPosition()).getId();
+        double price;
+        try{
+            price = Double.parseDouble(priceStr);
+        }catch (Exception e){
+            Toast.makeText(this,"Giá không hợp lệ",Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        Product p=new Product();
+        int cateId = cateList.get(spCategory.getSelectedItemPosition()).getId();
+
+        Product p = new Product();
         p.setNameFood(name);
         p.setPrice(price);
         p.setIdCate(cateId);
         p.setImage(imagePath);
 
-        if(idEdit!=-1){
+        if(idEdit != -1){
+
+            // ===== UPDATE =====
             p.setIdFood(idEdit);
-            dao.update(p);
-            Toast.makeText(this,"Đã cập nhật",Toast.LENGTH_SHORT).show();
+
+            int result = dao.update(p);
+
+            if(result == -1){
+                Toast.makeText(this,"Tên đã tồn tại",Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if(result > 0){
+                Toast.makeText(this,"Cập nhật thành công",Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this,"Không có thay đổi",Toast.LENGTH_SHORT).show();
+            }
+
         }else{
-            dao.insert(p);
-            Toast.makeText(this,"Đã thêm",Toast.LENGTH_SHORT).show();
+
+            // ===== INSERT =====
+            long result = dao.insert(p);
+
+            if(result == -1){
+                Toast.makeText(this,"Tên đã tồn tại",Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Toast.makeText(this,"Thêm thành công",Toast.LENGTH_SHORT).show();
         }
 
         finish();

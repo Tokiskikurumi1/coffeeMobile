@@ -38,7 +38,7 @@ public class BillDetailFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
         int idBill = getArguments().getInt("idBill");
-        txtBillId.setText("Bill #" + idBill);
+        txtBillId.setText("Mã Hóa Đơn: " + idBill);
 
         BillDetailDAO dao = new BillDetailDAO(getContext());
         Cursor c = dao.getBillDetail(idBill);
@@ -56,8 +56,9 @@ public class BillDetailFragment extends Fragment {
             list.add(new BillDetailItem(name, qty, price));
         }
 
-        txtTotal.setText("Total: " + total);
-
+        txtTotal.setText(
+                "Tổng tiền: " + String.format("%,.0f VND", total)
+        );
         BillDetailAdapter adapter = new BillDetailAdapter(list);
         rv.setAdapter(adapter);
 

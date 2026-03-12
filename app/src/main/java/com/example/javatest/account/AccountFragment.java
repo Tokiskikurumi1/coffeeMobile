@@ -72,16 +72,18 @@ public class AccountFragment extends Fragment {
                     .commit();
         });
 
-        // Thêm loại sản phẩm
-        LinearLayout btnLoaiSP = view.findViewById(R.id.btnAddCategory);
+        // ĐỌC ROLE
+        SharedPreferences pref = requireActivity()
+                .getSharedPreferences("USER", Context.MODE_PRIVATE);
 
-        btnLoaiSP.setOnClickListener(v -> {
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new ManageProductFragment())
-                    .addToBackStack(null)
-                    .commit();
-        });
+        int role = pref.getInt("role",1);
+
+// nếu là nhân viên -> ẩn
+        if(role == 1){
+            btnNhanVien.setVisibility(View.GONE);
+            btnSanPham.setVisibility(View.GONE);
+        }
+
 
         // Đăng xuất
         LinearLayout btnLogOut = view.findViewById(R.id.btnLogout);
@@ -97,7 +99,7 @@ public class AccountFragment extends Fragment {
 
                 // 1. Xóa trạng thái đăng nhập
                 SharedPreferences preferences = requireActivity()
-                        .getSharedPreferences("USER_FILE", Context.MODE_PRIVATE);
+                        .getSharedPreferences("USER", Context.MODE_PRIVATE);
 
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.clear(); // hoặc remove("isLogin")

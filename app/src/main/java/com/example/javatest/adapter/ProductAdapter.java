@@ -14,7 +14,7 @@ import com.example.javatest.R;
 import com.example.javatest.model.Product;
 
 import java.util.List;
-
+import java.util.Locale;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     private Context context;

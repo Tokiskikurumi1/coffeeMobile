@@ -5,27 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="12dp">
+    android:padding="12dp"
+    android:gravity="center_vertical">
 
+    <!-- Tên món -->
     <TextView
         android:id="@+id/txtName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Tên món"/>
+        android:text="Tên món"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 
+    <!-- Số lượng -->
     <TextView
         android:id="@+id/txtQty"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:text="x1"
-        android:paddingStart="12dp"/>
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textAlignment="center"/>
 
+    <!-- Giá tiền -->
     <TextView
         android:id="@+id/txtPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10000"
+        android:textSize="18sp"
         android:paddingStart="12dp"/>
 
 </LinearLayout>

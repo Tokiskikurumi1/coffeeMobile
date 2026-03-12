@@ -17,11 +17,13 @@ import com.example.javatest.dao.ProductDAO;
 import com.example.javatest.model.SectionModel;
 
 import java.util.List;
+import android.content.SharedPreferences;
+import android.widget.TextView;
 
 public class HomeFragment extends Fragment {
 
     RecyclerView rvSection;
-
+    TextView txtHello;
     @Nullable
     @Override
     public View onCreateView(
@@ -32,7 +34,12 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         rvSection = view.findViewById(R.id.rvSection);
+        // LẤY TÊN NGƯỜI ĐĂNG NHẬP HIỆN TẠI
+        txtHello = view.findViewById(R.id.txtHello);
+        SharedPreferences sp = getActivity().getSharedPreferences("USER",0);
+        String name = sp.getString("name","");
 
+        txtHello.setText("Xin chào: " + name);
         // Layout dọc cho danh mục
         rvSection.setLayoutManager(
                 new LinearLayoutManager(getContext())

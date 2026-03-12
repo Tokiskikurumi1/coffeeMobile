@@ -58,7 +58,27 @@ public class BillDAO {
         c.close();
         return list;
     }
+    public ArrayList<Revenue> getRevenueByDate(long start, long end){
 
+        ArrayList<Revenue> list = new ArrayList<>();
+
+        String sql = "SELECT idBill, date, totalPrice FROM bill WHERE date BETWEEN ? AND ?";
+
+        Cursor c = db.rawQuery(sql,
+                new String[]{String.valueOf(start), String.valueOf(end)});
+
+        while(c.moveToNext()){
+
+            int id = c.getInt(0);
+            String date = c.getString(1);
+            double total = c.getDouble(2);
+
+            list.add(new Revenue(id,date,total));
+        }
+
+        c.close();
+        return list;
+    }
     public void debugBills(){
 
         Cursor c = db.rawQuery("SELECT * FROM bill",null);

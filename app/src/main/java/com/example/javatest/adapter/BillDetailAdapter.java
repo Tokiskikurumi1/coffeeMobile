@@ -12,6 +12,7 @@ import com.example.javatest.R;
 import com.example.javatest.model.BillDetailItem;
 
 import java.util.List;
+import java.util.Locale;
 
 public class BillDetailAdapter extends RecyclerView.Adapter<BillDetailAdapter.VH> {
 
@@ -35,7 +36,9 @@ public class BillDetailAdapter extends RecyclerView.Adapter<BillDetailAdapter.VH
 
         holder.txtName.setText(item.getName());
         holder.txtQty.setText("x" + item.getQty());
-        holder.txtPrice.setText(String.valueOf(item.getTotal()));
+        holder.txtPrice.setText(
+                String.format(new Locale("vi","VN"), "%,.0f VND", item.getPrice())
+        );
     }
 
     @Override
