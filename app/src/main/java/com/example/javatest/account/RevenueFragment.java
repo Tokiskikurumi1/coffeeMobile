@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -84,6 +85,21 @@ public class RevenueFragment extends Fragment {
 
             Long start = (Long) edtStartDate.getTag();
             Long end = (Long) edtEndDate.getTag();
+            // kiểm tra chưa chọn ngày
+            if(start == null || end == null){
+                Toast.makeText(getContext(),
+                        "Vui lòng chọn đầy đủ ngày bắt đầu và kết thúc",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // kiểm tra ngày hợp lệ
+            if(start > end){
+                Toast.makeText(getContext(),
+                        "Ngày bắt đầu phải nhỏ hơn ngày kết thúc",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             list.clear();
             list.addAll(billDAO.getRevenueByDate(start, end));
