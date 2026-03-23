@@ -54,7 +54,7 @@ public class ProductDetailFragment extends Fragment {
 
             if(product!=null){
                 txtName.setText(product.getNameFood());
-                txtPrice.setText(product.getPrice()+" VNĐ");
+                txtPrice.setText(String.format(new Locale("vi","VN"), "%,.0f VND", product.getPrice()));
 
                 ImageLoader.load(imgProduct, product.getImage());
             }
