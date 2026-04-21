@@ -49,7 +49,7 @@
             android:textColor="#E53935"
             android:layout_marginTop="12dp"/>
 
-        <!-- ⭐ FILTER CATEGORY -->
+        <!-- FILTER CATEGORY -->
         <Spinner
             android:id="@+id/spFilter"
             android:layout_width="match_parent"
